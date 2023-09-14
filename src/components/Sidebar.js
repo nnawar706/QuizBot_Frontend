@@ -4,7 +4,7 @@ import {
     dashboard,
     performance,
     results,
-    rooms,
+    quizzes,
     settings,
     students,
 } from "../images";
@@ -31,22 +31,30 @@ const Sidebar = () => (
         </div>
         <div className="contentsContainer">
             <ul>
-                <li>
+                <li className="active">
                     <img src={dashboard} alt="dashboard"/>
                     <a href="/">Dashboard</a>
                 </li>
-                <li>
-                    <img src={rooms} alt="exam-rooms"/>
-                    <a href="/">Exam Rooms</a>
+                <li className="active">
+                    <img src={settings} alt="exam-rooms"/>
+                    <a href="/">Settings</a>
                 </li>
                 <li>
                     <img src={students} alt="exam-rooms"/>
                     <a href="/">Students</a>
                 </li>
                 <li>
-                    <img src={rooms} alt="exam-rooms"/>
-                    <a href="/">Settings</a>
+                    <img src={quizzes} alt="exam-rooms"/>
+                    <a href="/">Quizzes</a>
                 </li>
+                <li>
+                    <img src={performance} alt="exam-rooms"/>
+                    <a href="/">Result</a>
+                </li>
+                {/* <li className="active">
+                    <img src={performance} alt="exam-rooms"/>
+                    <a href="/">Performance</a>
+                </li> */}
             </ul>
         </div>
     </section>

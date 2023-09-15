@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, Link } from "react-router-dom";
 
 import { BsFillCaretLeftSquareFill, BsBarChartLineFill } from "react-icons/bs";
 import { MdDashboardCustomize, MdOutlineSettings, MdPeopleAlt, MdOutlineLibraryBooks } from "react-icons/md";
@@ -56,11 +56,11 @@ const Sidebar = () => {
             {menus.map((menu, index) => (
                 <li key={index} 
                 className={`text-dark-grey text-sm flex items-center 
-                hover:bg-light-grey rounded-md mt-2 cursor-pointer p-2 ${isActive(menu.location) ? "active" : ""}`}>
-                    <a href={menu.location}>
+                rounded-md mt-2 cursor-pointer p-2 ${isActive(menu.location) ? "bg-very-light-green" : "hover:bg-light-grey"}`}>
+                    <Link to={menu.location}>
                         <span className="text-2xl block float-left">{menu.icon}</span>
-                    <span className={`text-base font-medium ml-4 duration-500 ${minimizeSidebar && "hidden"}`}>{menu.title}</span>
-                    </a>
+                        <span className={`text-base font-medium ml-4 duration-500 ${minimizeSidebar && "hidden"}`}>{menu.title}</span>
+                    </Link>
                 </li>
             ))}
         </ul>

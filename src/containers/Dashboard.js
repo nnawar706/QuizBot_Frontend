@@ -4,7 +4,7 @@ import Sidebar from "../components/Sidebar";
 const Dashboard = () => (
     <Layout title="QuizBot | Dashboard" content="Admin Dashboard">
         <section className="flex">
-            <Sidebar />
+            <Sidebar/>
             <section className="p-7">
                 <h2 className="text-2xl font-semibold">Dashboard Here</h2>
             </section>

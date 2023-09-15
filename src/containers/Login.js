@@ -64,7 +64,6 @@ const Login = () => {
             </div>
           </div>
 
-          {/* login image */}
           <div className="w-1/2 p-5 bg-white sm:block hidden">
             <img
               className="mt-12 rounded-2xl"

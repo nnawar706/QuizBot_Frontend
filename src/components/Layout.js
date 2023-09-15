@@ -8,7 +8,7 @@ const Layout = ({ title, content, children }) => (
             <title>{title}</title>
             <meta name="description" content={content} />
         </Helmet>
-        <Navbar />
+        {/* <Navbar /> */}
         <div className="">
             {children}
         </div>

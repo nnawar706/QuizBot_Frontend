@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { BsEyeFill, BsEyeSlashFill } from "react-icons/bs";
+import { FcGoogle } from "react-icons/fc";
 
 import Layout from "../components/Layout";
 import { login } from "../images";
@@ -14,7 +15,7 @@ const Login = () => {
   return (
     <Layout title="QuizBot | Login" content="Login Page">
       <section className="bg-white min-h-screen flex items-center justify-center">
-        <div className="bg-very-light-green flex rounded-2xl shadow-lg max-w-3xl h-[400px] p-5">
+        <div className="bg-very-light-green flex rounded-2xl shadow-lg max-w-3xl h-[450px] p-5">
           {/* login form */}
           <div className="sm:w-1/2 text-dark-green px-16">
             <h2 className="font-bold text-2xl">Login</h2>
@@ -62,6 +63,14 @@ const Login = () => {
               <p className="text-sm text-center">OR</p>
               <hr className="border-grey-400"></hr>
             </div>
+
+            <button
+              className="bg-white flex justify-center items-center border 
+            py-2 w-full rounded-xl mt-5 text-sm"
+            >
+              <FcGoogle className="w-[25px] mr-3" />
+              Login with Google
+            </button>
           </div>
 
           <div className="w-1/2 p-5 bg-white sm:block hidden">
@@ -70,7 +79,9 @@ const Login = () => {
               src={login}
               alt="quizbot login page"
             />
-            <p className="text-right mr-4">Welcome to QuizBot</p>
+            <p className="text-right mr-4 text-dark-green underline underline-offset-8">
+              Welcome to QuizBot
+            </p>
           </div>
         </div>
       </section>

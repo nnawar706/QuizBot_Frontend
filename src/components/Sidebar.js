@@ -40,8 +40,9 @@ const Sidebar = () => {
         onClick = {() => setMinimizeSidebar(!minimizeSidebar)}/>
         <div className="inline-flex">
             <img src={logo} alt="logo" className={`cursor-pointer block float-left ${minimizeSidebar && "rotate-[360deg]" } duration-500`} />
-            <h3 className={`ml-2 mt-5 origin-left font-medium text-[18px] text-dark-green ${minimizeSidebar && "scale-0"} duration-500`}>
-                <u>QUIZBOT.</u>
+            <h3 className={`ml-2 mt-5 origin-left font-medium text-[18px]  underline underline-offset-8 text-dark-green
+            ${minimizeSidebar && "scale-0"} duration-500`}>
+                QUIZBOT.
             </h3>
         </div>
         <div className="inline-flex mt-4">

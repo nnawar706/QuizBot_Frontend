@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useSelector } from "react-redux";
 import { useLocation, Link } from "react-router-dom";
 
 import { BsFillCaretLeftSquareFill, BsBarChartLineFill } from "react-icons/bs";
@@ -9,6 +10,7 @@ import {logo, profile} from "../images";
 const Sidebar = () => {
     const location = useLocation();
     const [minimizeSidebar, setMinimizeSidebar] = useState(false);
+    // const { isAuth } = useSelector(state => state.auth);
 
     const menus = [
         {

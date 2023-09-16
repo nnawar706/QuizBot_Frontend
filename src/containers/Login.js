@@ -5,7 +5,7 @@ import { BsEyeFill, BsEyeSlashFill } from "react-icons/bs";
 import { FcGoogle } from "react-icons/fc";
 
 import Layout from "../components/Layout";
-import { login } from "../images";
+import { loginBg } from "../images";
 import { setCredentials } from "../features/authSlice";
 import { useLoginMutation } from "../features/authApiSlice";
 
@@ -14,7 +14,7 @@ const Login = () => {
   const errRef = useRef();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
+  // const [error, setError] = useState('');
   const [showPWD, setShowPWD] = useState(false);
   const navigate = useNavigate()
 
@@ -37,9 +37,9 @@ const Login = () => {
     } 
     catch (error) {
       // if (error.response?.status === 401) {
-      console.log(error.response?.originalStatus + ': ' + error.response)
+      console.log(error)
 
-      errRef.current.focus();
+      userRef.current.focus();
     }
   }
   const togglePasswordVisibility = () => {
@@ -54,7 +54,7 @@ const Login = () => {
     setPassword(e.target.value);
   };
 
-  const content = isLoading ? <h1>Loading...</h1> : (
+  const content = (
     <Layout title="QuizBot | Login" content="Login Page">
       <section className="bg-white min-h-screen flex items-center justify-center">
         <div className="bg-very-light-green flex rounded-2xl shadow-lg max-w-3xl h-[450px] p-5">
@@ -130,7 +130,7 @@ const Login = () => {
           <div className="w-1/2 p-5 bg-white sm:block hidden">
             <img
               className="mt-12 rounded-2xl"
-              src={login}
+              src={loginBg}
               alt="quizbot login page"
             />
             <p className="text-right mr-4 text-dark-green underline underline-offset-8">

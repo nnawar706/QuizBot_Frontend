@@ -6,11 +6,13 @@ import { BsFillCaretLeftSquareFill, BsBarChartLineFill } from "react-icons/bs";
 import { MdDashboardCustomize, MdOutlineSettings, MdPeopleAlt, MdOutlineLibraryBooks } from "react-icons/md";
 
 import {logo, profile} from "../images";
+import { selectAuthUser, selectAuthToken } from "../features/authSlice";
 
 const Sidebar = () => {
     const location = useLocation();
     const [minimizeSidebar, setMinimizeSidebar] = useState(false);
-    // const { isAuth } = useSelector(state => state.auth);
+    const user = useSelector(selectAuthUser);
+    const token = useSelector(selectAuthToken);
 
     const menus = [
         {
@@ -50,7 +52,7 @@ const Sidebar = () => {
         <div className="inline-flex mt-4">
             <img src={profile} alt="profile" className={`w-10 h-10 float-left`} />
             <div className={`ml-2 origin-left ${minimizeSidebar && "scale-0"} duration-500`}>
-                <p>Hello, John</p>
+                <p>Hello, {user}</p>
                 <p className="mb-2">john@hello.com</p>
             </div>
         </div>

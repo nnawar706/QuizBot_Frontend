@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
-import { setCredentiales, logout } from "../../features/authSlice";
+import { setCredentials, logout } from "../../features/authSlice";
 
 const baseQuery = fetchBaseQuery({
     baseUrl: process.env.QUIZBOT_API_BASE_URL,
@@ -22,5 +22,22 @@ const RefreshBaseQuery = async (args, api, extraOptions) => {
 
         const refreshResponse = await baseQuery("/refresh", api, extraOptions);
         console.log(refreshResponse);
+
+        if (refreshResponse?.data) {
+            const user = api.getState().auth.user;
+            // store new token
+            api.dispatch(setCredentials({ ...refreshResponse.data, user }));
+            // retry with new access token
+            response = await baseQuery(args, api, extraOptions);
+        } else {
+            api.dispatch(logout())
+        }
     }
+
+    return response;
 }
+
+export const apiSlice = createApi({
+    baseQuery: RefreshBaseQuery,
+    endpoints: builder => ({})
+})

@@ -1,18 +1,60 @@
-import { useState } from "react";
+import { useRef, useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import { BsEyeFill, BsEyeSlashFill } from "react-icons/bs";
 import { FcGoogle } from "react-icons/fc";
 
 import Layout from "../components/Layout";
 import { login } from "../images";
+import { setCredentials } from "../features/authSlice";
+import { useLoginMutation } from "../features/authApiSlice";
 
 const Login = () => {
+  const userRef = useRef();
+  const errRef = useRef();
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
   const [showPWD, setShowPWD] = useState(false);
-  
+  const navigate = useNavigate()
+
+  const [login, { isLoading }] = useLoginMutation();
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    userRef.current.focus()
+  })
+
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+
+    try {
+      const auth = await login({ email, password }).unwrap();
+      dispatch(setCredentials({ ...auth, email }));
+      setEmail('');
+      setPassword('');
+      navigate('/dashboard');
+    } 
+    catch (error) {
+      // if (error.response?.status === 401) {
+      console.log(error.response?.originalStatus + ': ' + error.response)
+
+      errRef.current.focus();
+    }
+  }
   const togglePasswordVisibility = () => {
     setShowPWD(!showPWD);
   };
 
-  return (
+  const handleEmailInput = (e) => {
+    setEmail(e.target.value);
+  }
+
+  const handlePasswordInput = (e) => {
+    setPassword(e.target.value);
+  };
+
+  const content = isLoading ? <h1>Loading...</h1> : (
     <Layout title="QuizBot | Login" content="Login Page">
       <section className="bg-white min-h-screen flex items-center justify-center">
         <div className="bg-very-light-green flex rounded-2xl shadow-lg max-w-3xl h-[450px] p-5">
@@ -23,19 +65,31 @@ const Login = () => {
               If you already have an account, kindly login.
             </p>
 
-            <form className="flex flex-col gap-4" action="">
+            <form className="flex flex-col gap-4"
+            onSubmit={handleSubmit}>
               <input
                 className="p-2 mt-8 rounded-xl border"
                 type="email"
                 name="email"
+                id="email"
+                value={email}
+                ref={userRef}
                 placeholder="Email"
+                autoComplete="off"
+                onChange={handleEmailInput}
+                required
               ></input>
               <div className="relative">
                 <input
                   className="w-full p-2 rounded-xl border"
                   type="password"
+                  id="password"
                   name="password"
+                  value={password}
                   placeholder="Password"
+                  autoComplete="off"
+                  onChange={handlePasswordInput}
+                  required
                 ></input>
                 {showPWD ? (
                   <BsEyeFill
@@ -87,6 +141,8 @@ const Login = () => {
       </section>
     </Layout>
   );
+
+  return content;
 };
 
 export default Login;

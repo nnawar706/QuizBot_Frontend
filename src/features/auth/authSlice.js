@@ -4,7 +4,7 @@ import { userLogin } from "./authAction";
 
 const initialState = {
     loading: false,
-    authInfo: {}, // for user object
+    // authInfo: {}, // for user object
     authToken: null, // for storing the JWT
     refreshToken: null,
     error: null,

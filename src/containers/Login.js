@@ -10,7 +10,7 @@ import { loginBg } from "../images";
 import { userLogin } from "../features/auth/authAction";
 
 const Login = () => {
-  const { loading, authInfo, error, success } = useSelector(
+  const { loading, error, success } = useSelector(
     (state) => state.auth
   );
   const toast = useRef(null);
@@ -37,35 +37,19 @@ const Login = () => {
       toast.current.show({
         severity: "success",
         summary: "Success",
-        detail: 'Login successfull',
+        detail: 'Login successful',
         life: 1000,
       });
 
       setTimeout(() => {
-        navigate("/");
-      }, 1000);
+        navigate("/dashboard");
+      }, 500);
     }
   }, [navigate, success, error]);
 
   const handleSubmit = async (e) => {
     e.preventDefault()
     dispatch(userLogin({email, password}))
-    // setEmail("");
-    // setPassword("");
-    // navigate("/dashboard");
-    // try {
-    //   const auth = await login({ email, password }).unwrap();
-    //   dispatch();
-    //   setEmail('');
-    //   setPassword('');
-    //   navigate('/dashboard');
-    // } 
-    // catch (error) {
-      // if (error.response?.status === 401) {
-      // console.log(error)
-
-      // userRef.current.focus();
-    // }
   }
   const togglePasswordVisibility = () => {
     setShowPWD(!showPWD);

@@ -1,17 +1,24 @@
-import { useLocation, Navigate, Outlet } from "react-router-dom";
+import { NavLink, Outlet } from "react-router-dom";
 import { useSelector } from "react-redux";
-// import { authSlice } from "./auth/authSlice";
 
 const RequireAuth = () => {
     const { authToken } = useSelector(
         (state) => state.auth
     );
-    const location = useLocation()
 
-    return (
-        authToken ? <Outlet/> 
-        : <Navigate to="/login" state={{ from: location }} replace/>
-    )
+    if(!authToken)
+    {
+        return (
+            <div className="unauthorized">
+                <h1>Unauthorized :(</h1>
+                <span>
+                <NavLink to="/login">Login</NavLink> to gain access
+                </span>
+            </div>
+        );
+    }
+
+    return <Outlet/>
 }
 
 export default RequireAuth;

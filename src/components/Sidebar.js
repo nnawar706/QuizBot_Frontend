@@ -1,18 +1,17 @@
 import { useState } from "react";
-import { useSelector } from "react-redux";
 import { useLocation, Link } from "react-router-dom";
 
 import { BsFillCaretLeftSquareFill, BsBarChartLineFill } from "react-icons/bs";
 import { MdDashboardCustomize, MdOutlineSettings, MdPeopleAlt, MdOutlineLibraryBooks } from "react-icons/md";
 
 import {logo, profile} from "../images";
-import { selectAuthUser, selectAuthToken } from "../features/authSlice";
+// import { selectAuthUser, selectAuthToken } from "../features/authSlice";
 
 const Sidebar = () => {
     const location = useLocation();
     const [minimizeSidebar, setMinimizeSidebar] = useState(false);
-    const user = useSelector(selectAuthUser);
-    const token = useSelector(selectAuthToken);
+    // const user = useSelector(selectAuthUser);
+    // const token = useSelector(selectAuthToken);
 
     const menus = [
         {
@@ -52,7 +51,7 @@ const Sidebar = () => {
         <div className="inline-flex mt-4">
             <img src={profile} alt="profile" className={`w-10 h-10 float-left`} />
             <div className={`ml-2 origin-left ${minimizeSidebar && "scale-0"} duration-500`}>
-                <p>Hello, {user}</p>
+                <p>Hello, John</p>
                 <p className="mb-2">john@hello.com</p>
             </div>
         </div>

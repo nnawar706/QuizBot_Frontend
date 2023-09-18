@@ -1,46 +1,71 @@
 import { useRef, useState, useEffect } from "react";
+import { Toast } from "primereact/toast";
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { BsEyeFill, BsEyeSlashFill } from "react-icons/bs";
 import { FcGoogle } from "react-icons/fc";
 
 import Layout from "../components/Layout";
 import { loginBg } from "../images";
-import { setCredentials } from "../features/authSlice";
-import { useLoginMutation } from "../features/authApiSlice";
+import { userLogin } from "../features/auth/authAction";
 
 const Login = () => {
+  const { loading, authInfo, error, success } = useSelector(
+    (state) => state.auth
+  );
+  const toast = useRef(null);
   const userRef = useRef();
-  const errRef = useRef();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  // const [error, setError] = useState('');
   const [showPWD, setShowPWD] = useState(false);
   const navigate = useNavigate()
 
-  const [login, { isLoading }] = useLoginMutation();
+  // const [login, { isLoading }] = useLoginMutation();
   const dispatch = useDispatch();
 
   useEffect(() => {
-    userRef.current.focus()
-  })
+    if(error) {
+      toast.current.show({
+        severity: "error",
+        summary: "Error",
+        detail: error,
+        life: 3000,
+      });
+    }
+    
+    if (success) {
+      toast.current.show({
+        severity: "success",
+        summary: "Success",
+        detail: 'Login successfull',
+        life: 1000,
+      });
+
+      setTimeout(() => {
+        navigate("/");
+      }, 1000);
+    }
+  }, [navigate, success, error]);
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-
-    try {
-      const auth = await login({ email, password }).unwrap();
-      dispatch(setCredentials({ ...auth, email }));
-      setEmail('');
-      setPassword('');
-      navigate('/dashboard');
-    } 
-    catch (error) {
+    dispatch(userLogin({email, password}))
+    // setEmail("");
+    // setPassword("");
+    // navigate("/dashboard");
+    // try {
+    //   const auth = await login({ email, password }).unwrap();
+    //   dispatch();
+    //   setEmail('');
+    //   setPassword('');
+    //   navigate('/dashboard');
+    // } 
+    // catch (error) {
       // if (error.response?.status === 401) {
-      console.log(error)
+      // console.log(error)
 
-      userRef.current.focus();
-    }
+      // userRef.current.focus();
+    // }
   }
   const togglePasswordVisibility = () => {
     setShowPWD(!showPWD);
@@ -57,6 +82,7 @@ const Login = () => {
   const content = (
     <Layout title="QuizBot | Login" content="Login Page">
       <section className="bg-white min-h-screen flex items-center justify-center">
+        <Toast ref={toast} />
         <div className="bg-very-light-green flex rounded-2xl shadow-lg max-w-3xl h-[450px] p-5">
           {/* login form */}
           <div className="sm:w-1/2 text-dark-green px-16">
@@ -65,8 +91,7 @@ const Login = () => {
               If you already have an account, kindly login.
             </p>
 
-            <form className="flex flex-col gap-4"
-            onSubmit={handleSubmit}>
+            <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
               <input
                 className="p-2 mt-8 rounded-xl border"
                 type="email"
@@ -107,8 +132,9 @@ const Login = () => {
               <button
                 className="bg-dark-green text-medium text-white rounded-xl py-2"
                 type="submit"
+                disabled={loading}
               >
-                Login
+                {loading ? "Wait" : "Login"}
               </button>
             </form>
 

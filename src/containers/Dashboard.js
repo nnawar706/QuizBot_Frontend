@@ -1,6 +1,6 @@
-import { useState, useEffect } from "react"
-import { useDispatch, useSelector } from "react-redux"
-import { useLocation, Link } from "react-router-dom"
+// import { useState, useEffect } from "react"
+// import { useDispatch, useSelector } from "react-redux"
+// import { useLocation, Link } from "react-router-dom"
 
 import Layout from "../components/Layout"
 import Navbar from "../components/Navbar"
@@ -9,7 +9,7 @@ import Room from "../components/Room"
 import { Loading } from "../components/Loader"
 import { NoContent } from "../components/NoContent"
 import { useGetRoomsQuery } from "../backend/sevices/rooms/roomService"
-import { setData } from "../features/rooms/roomSlice"
+// import { setData } from "../features/rooms/roomSlice"
 
 const Dashboard = () => {
     // const dispatch = useDispatch()

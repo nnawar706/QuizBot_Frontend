@@ -7,11 +7,10 @@ export const roomsApi = createApi({
     baseQuery: fetchBaseQuery({
         baseUrl,
         prepareHeaders: (headers, { getState }) => {
-            const token = getState().auth.authToken;
-            if (token) {
-                headers.set("Authorization", `Bearer ${token}`);
-                return headers;
-            }
+            const token = getState().auth.authToken
+            headers.set("Content-Type", "application/json");
+            if (token) headers.set("Authorization", `Bearer ${token}`)
+            return headers
         },
     }),
     endpoints: (builder) => ({
@@ -21,7 +20,14 @@ export const roomsApi = createApi({
                 method: "GET",
             }),
         }),
+        
+        storeRoom: builder.query({
+            query: () => ({
+                url: "api/v1/rooms/",
+                method: "POST",
+            }),
+        }),
     }),
 });
 
-export const { useGetRoomsQuery } = roomsApi
+export const { useGetRoomsQuery, useStoreRoomMutation } = roomsApi

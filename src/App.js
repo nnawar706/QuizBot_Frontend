@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom"
 import { useSelector } from "react-redux"
-import "primereact/resources/themes/lara-light-indigo/theme.css"
+import "primereact/resources/themes/saga-green/theme.css"
 import "primereact/resources/primereact.min.css"
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";

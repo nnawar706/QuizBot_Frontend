@@ -118,7 +118,7 @@ const Login = () => {
                 type="submit"
                 disabled={loading}
               >
-                {loading ? "Wait" : "Login"}
+                {loading ? "Processing" : "Login"}
               </button>
             </form>
 

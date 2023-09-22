@@ -1,6 +1,6 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
+import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
-const baseUrl = 'http://localhost:8000'
+const baseUrl = 'http://localhost:8000/'
 
 export const authApi = createApi({
     reducerPath: 'authApi',
@@ -14,14 +14,14 @@ export const authApi = createApi({
             }
         },
     }),
-    endpoints: (build) => ({
-        getAuthDetails: build.query({
+    endpoints: (builder) => ({
+        getAuthUserDetails: builder.query({
             query: () => ({
-                url: '/api/v1/users/me',
+                url: 'api/v1/users/me',
                 method: 'GET',
             }),
         }),
     }),
-})
+});
 
-export const { useAuthDetailQuery } = authApi
+export const { useGetAuthUserDetailsQuery } = authApi;

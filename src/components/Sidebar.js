@@ -1,21 +1,35 @@
-import { useState } from "react";
-import { useLocation, Link } from "react-router-dom";
+import { useState, useEffect } from "react"
+import { useDispatch, useSelector } from "react-redux"
+import { useLocation, Link } from "react-router-dom"
 
 import { BsFillCaretLeftSquareFill, BsBarChartLineFill } from "react-icons/bs";
 import { MdDashboardCustomize, MdOutlineSettings, MdPeopleAlt, MdOutlineLibraryBooks } from "react-icons/md";
 
 import {logo, profile} from "../images";
-// import { selectAuthUser, selectAuthToken } from "../features/authSlice";
+import { useGetAuthUserDetailsQuery } from "../backend/sevices/auth/authService";
+import { setCredentials } from "../features/auth/authSlice";
 
 const Sidebar = () => {
-    const location = useLocation();
-    const [minimizeSidebar, setMinimizeSidebar] = useState(false);
-    // const user = useSelector(selectAuthUser);
-    // const token = useSelector(selectAuthToken);
+    const location = useLocation()
+    const dispatch = useDispatch()
+    const [minimizeSidebar, setMinimizeSidebar] = useState(false)
+
+    const { authInfo } = useSelector((state) => state.auth)
+
+    const { data, isFetching } = useGetAuthUserDetailsQuery("userDetails", {
+        pollingInterval: 900000, // 15mins
+    });
+
+
+    useEffect(() => {
+        if (data) dispatch(setCredentials(data))
+    }, [data, dispatch])
+
+    console.log(data, isFetching);
 
     const menus = [
         {
-            title: "Dashboard", icon: <MdDashboardCustomize/>, location: "/exam-room/:id"
+            title: "Home", icon: <MdDashboardCustomize/>, location: "/exam-room/:id"
         },
         {
             title: "Settings", icon: <MdOutlineSettings/>, location: "/exam-room/:id/setting"
@@ -51,8 +65,8 @@ const Sidebar = () => {
         <div className="inline-flex mt-4">
             <img src={profile} alt="profile" className={`w-10 h-10 float-left`} />
             <div className={`ml-2 origin-left ${minimizeSidebar && "scale-0"} duration-500`}>
-                <p>Hello, John</p>
-                <p className="mb-2">john@hello.com</p>
+                <p>Hello, {authInfo.name}</p>
+                <p className="mb-2">{authInfo.email}</p>
             </div>
         </div>
         <hr/>

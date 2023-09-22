@@ -1,20 +1,24 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit"
 
-import { userLogin } from "./authAction";
+import { userLogin } from "./authAction"
 
 const initialState = {
     loading: false,
-    // authInfo: {}, // for user object
+    authInfo: {}, // for user object
     authToken: null, // for storing the JWT
     refreshToken: null,
     error: null,
     success: false, // for monitoring the registration process.
-};
+}
 
 const authSlice = createSlice({
     name: "auth",
     initialState,
-    reducers: {},
+    reducers: {
+        setCredentials: (state, { payload }) => {
+            state.authInfo = payload.data
+        }
+    },
     extraReducers: {
         [userLogin.pending]: (state) => {
             state.loading = true;
@@ -32,4 +36,5 @@ const authSlice = createSlice({
     },
 });
 
+export const { setCredentials } = authSlice.actions
 export default authSlice.reducer;

@@ -41,8 +41,6 @@ const Login = () => {
         life: 1000,
       });
 
-      
-
       setTimeout(() => {
         navigate("/dashboard");
       }, 500);

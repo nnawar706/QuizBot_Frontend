@@ -18,8 +18,8 @@ export const userLogin = createAsyncThunk(
             )
 
             // store user's token in local storage
-            localStorage.setItem('userToken', data.userToken)
-            localStorage.setItem("refreshToken", data.refreshToken);
+            // localStorage.setItem('userToken', data.userToken)
+            localStorage.setItem("refreshToken", data.refresh_token);
 
             return data
         } catch (err) {

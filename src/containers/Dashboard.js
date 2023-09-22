@@ -1,17 +1,20 @@
-import Layout from "../components/Layout";
-import Navbar from "../components/Navbar";
-import Sidebar from "../components/Sidebar";
+import Layout from "../components/Layout"
+import Navbar from "../components/Navbar"
+import Sidebar from "../components/Sidebar"
+import Room from "../components/Room"
 
 const Dashboard = () => (
-    <Layout title="QuizBot | Dashboard" content="Admin Dashboard">
+    <Layout title="QuizBot | Dashboard" content="User Dashboard">
         <section className="flex bg-very-light-green">
-            <Sidebar/>
-            <Navbar/>
-            {/* <section className="p-7 ">
-                <h2 className="text-2xl font-semibold">Dashboard Here</h2>
-            </section> */}
+            <Sidebar />
+            <div className="w-full">
+                <Navbar />
+                <div className="px-16 py-20 flex flex-wrap">
+                    <Room name={"name"}/>
+                </div>
+            </div>
         </section>
     </Layout>
 );
 
-export default Dashboard;
+export default Dashboard

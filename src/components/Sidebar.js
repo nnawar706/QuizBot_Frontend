@@ -29,7 +29,7 @@ const Sidebar = () => {
 
     const menus = [
         {
-            title: "Home", icon: <MdDashboardCustomize/>, location: "/exam-room/:id"
+            title: "Dashboard", icon: <MdDashboardCustomize/>, location: "/exam-room/:id"
         },
         {
             title: "Settings", icon: <MdOutlineSettings/>, location: "/exam-room/:id/setting"
@@ -53,7 +53,7 @@ const Sidebar = () => {
     <div className={`bg-white h-screen relative p-5 pt-8 ${minimizeSidebar ? "w-20" : "w-72"} duration-500`}>
         <BsFillCaretLeftSquareFill 
         className={`bg-white text-dark-green text-3xl rounded-full absolute 
-        -right-4 top-20 cursor-pointer ${minimizeSidebar && "rotate-180"}`} 
+        -right-4 top-20 z-[100] cursor-pointer ${minimizeSidebar && "rotate-180"}`} 
         onClick = {() => setMinimizeSidebar(!minimizeSidebar)}/>
         <div className="inline-flex">
             <img src={logo} alt="logo" className={`cursor-pointer block float-left ${minimizeSidebar && "rotate-[360deg]" } duration-500`} />

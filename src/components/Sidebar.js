@@ -25,8 +25,6 @@ const Sidebar = () => {
         if (data) dispatch(setCredentials(data))
     }, [data, dispatch])
 
-    console.log(data, isFetching);
-
     const menus = [
         {
             title: "Dashboard", icon: <MdDashboardCustomize/>, location: "/exam-room/:id"

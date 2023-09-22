@@ -7,12 +7,18 @@ import Navbar from "../components/Navbar"
 import Sidebar from "../components/Sidebar"
 import Room from "../components/Room"
 import { Loading } from "../components/Loader"
+import { NoContent } from "../components/NoContent"
 import { useGetRoomsQuery } from "../backend/sevices/rooms/roomService"
 
 const Dashboard = () => {
     const dispatch = useDispatch()
     const { data, isFetching } = useGetRoomsQuery({ refetchOnMountOrArgChange: true })
+    
+    useEffect(() => {
+        // if (data) dispatch(setCredentials(data));
+    }, [data, dispatch]);
 
+    console.log(data)
     return (
     <Layout title="QuizBot | Dashboard" content="User Dashboard">
         <section className="flex bg-very-light-green">
@@ -20,10 +26,13 @@ const Dashboard = () => {
             <div className="w-full">
                 <Navbar />
                 {
-                    !isFetching ? <Loading/> :
-                    <div className="px-16 py-20 flex flex-wrap">
-                        <Room name={"name"}/>
-                    </div>
+                    isFetching ? <Loading/> :
+                    (
+                        data ? 
+                        <div className="px-16 py-20 flex flex-wrap">
+                            <Room name={data.title}/>
+                        </div> 
+                        : <NoContent/>)
                 }
             </div>
         </section>

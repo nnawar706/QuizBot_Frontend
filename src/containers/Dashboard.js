@@ -9,14 +9,16 @@ import Room from "../components/Room"
 import { Loading } from "../components/Loader"
 import { NoContent } from "../components/NoContent"
 import { useGetRoomsQuery } from "../backend/sevices/rooms/roomService"
+import { setData } from "../features/rooms/roomSlice"
 
 const Dashboard = () => {
-    const dispatch = useDispatch()
+    // const dispatch = useDispatch()
     const { data, isFetching } = useGetRoomsQuery({ refetchOnMountOrArgChange: true })
-    
-    useEffect(() => {
-        // if (data) dispatch(setCredentials(data));
-    }, [data, dispatch]);
+    // const { roomList } = useSelector((state) => state.rooms)
+
+    // useEffect(() => {
+    //     if (data) dispatch(setData(data))
+    // }, [data, dispatch]);
 
     console.log(data)
     return (
@@ -29,9 +31,18 @@ const Dashboard = () => {
                     isFetching ? <Loading/> :
                     (
                         data ? 
-                        <div className="px-16 py-20 flex flex-wrap">
-                            <Room name={data.title}/>
-                        </div> 
+                        data.map((item) => {
+                            return (
+                                <div className="px-16 py-20 flex flex-wrap">
+                                    <Room 
+                                        id={item?.id} 
+                                        title={item?.title} 
+                                        detail={item?.detail} 
+                                        created_at={item?.created_at}
+                                    />
+                                </div>
+                            )
+                        })
                         : <NoContent/>)
                 }
             </div>

@@ -38,6 +38,7 @@ const App = () => {
           {/* protected routes */}
           <Route element={<RequireAuth />}>
             <Route path="dashboard" element={<Dashboard />} />
+            <Route path="room/:id" element={<Dashboard />} />
           </Route>
         {/* </Route> */}
       </Routes>

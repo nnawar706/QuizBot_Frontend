@@ -16,6 +16,8 @@ const Sidebar = () => {
 
     const { authInfo } = useSelector((state) => state.auth)
 
+    const isDashboard = location.pathname === '/dashboard'
+
     const { data, isFetching } = useGetAuthUserDetailsQuery("userDetails", {
         pollingInterval: 900000, // 15mins
     });
@@ -27,19 +29,22 @@ const Sidebar = () => {
 
     const menus = [
         {
-            title: "Dashboard", icon: <MdDashboardCustomize/>, location: "/exam-room/:id"
+            title: "Dashboard", icon: <MdDashboardCustomize/>, location: "/dashboard", isHidden: !isDashboard
         },
         {
-            title: "Settings", icon: <MdOutlineSettings/>, location: "/exam-room/:id/setting"
+            title: "Room", icon: <MdDashboardCustomize/>, location: "/room/:id", isHidden: isDashboard
         },
         {
-            title: "Students", icon: <MdPeopleAlt/>, location: "/exam-room/:id/students"
+            title: "Settings", icon: <MdOutlineSettings/>, location: "/room/:id/setting", isHidden: isDashboard
         },
         {
-            title: "Quizzes", icon: <MdOutlineLibraryBooks/>, location: "/exam-room/:id/quizzes"
+            title: "Students", icon: <MdPeopleAlt/>, location: "/room/:id/students", isHidden: isDashboard
         },
         {
-            title: "Results", icon: <BsBarChartLineFill/>, location: "/exam-room/:id/results"
+            title: "Quizzes", icon: <MdOutlineLibraryBooks/>, location: "/room/:id/quizzes", isHidden: isDashboard
+        },
+        {
+            title: "Results", icon: <BsBarChartLineFill/>, location: "/room/:id/results", isHidden: isDashboard
         }
     ]
 
@@ -71,7 +76,7 @@ const Sidebar = () => {
         <ul className="mt-3">
             {menus.map((menu, index) => (
                 <li key={index} 
-                className={`text-dark-grey text-sm flex items-center 
+                className={`text-dark-grey text-sm flex items-center ${menu.isHidden ? "hidden" : ""}
                 rounded-md mt-2 cursor-pointer p-2 ${isActive(menu.location) ? "bg-very-light-green" : "hover:bg-light-grey"}`}>
                     <Link to={menu.location}>
                         <span className="text-2xl block float-left">{menu.icon}</span>

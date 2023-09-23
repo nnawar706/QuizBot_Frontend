@@ -1,14 +1,18 @@
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import { Dialog } from 'primereact/dialog'
-import { InputText } from "primereact/inputtext"
+import { Toast } from "primereact/toast"
 
 import { BsPlusSquareFill } from "react-icons/bs"
 import { MdOutlineLogout } from "react-icons/md"
 
+import { useAddNewRoomMutation } from "../backend/sevices/rooms/roomService";
+
 const Navbar = () => {
+    const [storeRoom, { isLoading }] = useAddNewRoomMutation();
     const [visible, setVisible] = useState(false)
     const [title, setTitle] = useState('')
     const [detail, setDetail] = useState('')
+    const toast = useRef(null)
 
     const handleTitleInput = (e) => {
         setTitle(e.target.value)
@@ -19,9 +23,28 @@ const Navbar = () => {
     };
 
     const handleSubmit = async (e) => {
-        e.preventDefault();
-        console.log(title, detail);
-        // dispatch(userLogin({ email, password }));
+        e.preventDefault()
+        // console.log(title, detail)
+        storeRoom({ title, detail })
+            .unwrap()
+            .then(() => {
+                setTitle('')
+                setDetail('')
+                toast.current.show({
+                    severity: "success",
+                    summary: "Success",
+                    detail: "New room has been added.",
+                    life: 3000,
+                })
+            })
+            .catch((err) => {
+                toast.current.show({
+                    severity: "error",
+                    summary: "Error",
+                    detail: err?.data?.error,
+                    life: 3000,
+                })
+            })
     };
     
     const logout = () => {
@@ -70,6 +93,7 @@ const Navbar = () => {
             </form>
         </Dialog>
     </div>
+    <Toast ref={toast} />
     </>
 )}
 

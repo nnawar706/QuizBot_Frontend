@@ -12,15 +12,9 @@ import { useGetRoomsQuery } from "../backend/sevices/rooms/roomService"
 // import { setData } from "../features/rooms/roomSlice"
 
 const Dashboard = () => {
-    // const dispatch = useDispatch()
-    const { data, isFetching } = useGetRoomsQuery({ refetchOnMountOrArgChange: true })
-    // const { roomList } = useSelector((state) => state.rooms)
+    const { data, isFetching } = useGetRoomsQuery({ refetchOnMountOrArgChange: true, force: true })
 
-    // useEffect(() => {
-    //     if (data) dispatch(setData(data))
-    // }, [data, dispatch]);
-
-    console.log(data)
+    // console.log(data)
     return (
     <Layout title="QuizBot | Dashboard" content="User Dashboard">
         <section className="flex bg-very-light-green">
@@ -30,19 +24,20 @@ const Dashboard = () => {
                 {
                     isFetching ? <Loading/> :
                     (
-                        data ? 
-                        data.map((item) => {
+                        data ?
+                        <div className="px-16 py-20 flex flex-wrap"> 
+                        {data['data'].map((item) => {
                             return (
-                                <div className="px-16 py-20 flex flex-wrap">
+                                
                                     <Room 
                                         id={item?.id} 
                                         title={item?.title} 
                                         detail={item?.detail} 
                                         created_at={item?.created_at}
-                                    />
-                                </div>
+                                    />   
                             )
-                        })
+                        })}
+                        </div>
                         : <NoContent/>)
                 }
             </div>

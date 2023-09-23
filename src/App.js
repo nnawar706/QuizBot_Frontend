@@ -9,6 +9,7 @@ import RequireAuth from "./features/RequireAuth"
 import Dashboard from "./containers/Dashboard"
 import Login from "./containers/Login"
 // import Register from "./containers/Register"
+import RoomDashboard from "./containers/RoomDashboard"
 import "./styles/main.scss"
 import { userRefresh } from "./features/auth/refreshAuthAction"
 
@@ -31,16 +32,14 @@ const App = () => {
   return (
     <Router>
       <Routes>
-        {/* <Route path="/" element={<Layout />}> */}
           {/* public routes */}
           <Route path="login" element={<Login />} />
 
           {/* protected routes */}
           <Route element={<RequireAuth />}>
             <Route path="" element={<Dashboard />} />
-            <Route path="room/:id" element={<Dashboard />} />
+            <Route path="room/:id" element={<RoomDashboard />} />
           </Route>
-        {/* </Route> */}
       </Routes>
     </Router>
   );

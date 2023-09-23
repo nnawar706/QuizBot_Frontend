@@ -1,15 +1,16 @@
 import { useState, useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { useLocation, Link } from "react-router-dom"
+import { useLocation, Link, useParams } from "react-router-dom"
 
-import { BsFillCaretLeftSquareFill, BsBarChartLineFill } from "react-icons/bs";
-import { MdDashboardCustomize, MdOutlineSettings, MdPeopleAlt, MdOutlineLibraryBooks } from "react-icons/md";
+import { BsFillCaretLeftSquareFill, BsBarChartLineFill } from "react-icons/bs"
+import { MdDashboardCustomize, MdOutlineSettings, MdPeopleAlt, MdOutlineLibraryBooks } from "react-icons/md"
 
-import {logo, profile} from "../images";
-import { useGetAuthUserDetailsQuery } from "../backend/sevices/auth/authService";
-import { setCredentials } from "../features/auth/authSlice";
+import {logo, profile} from "../images"
+import { useGetAuthUserDetailsQuery } from "../backend/sevices/auth/authService"
+import { setCredentials } from "../features/auth/authSlice"
 
 const Sidebar = () => {
+    const { id } = useParams()
     const location = useLocation()
     const dispatch = useDispatch()
     const [minimizeSidebar, setMinimizeSidebar] = useState(false)
@@ -32,19 +33,19 @@ const Sidebar = () => {
             title: "Dashboard", icon: <MdDashboardCustomize/>, location: "/", isHidden: !isDashboard
         },
         {
-            title: "Room", icon: <MdDashboardCustomize/>, location: "/room/:id", isHidden: isDashboard
+            title: "Room", icon: <MdDashboardCustomize/>, location: "/room/"+id, isHidden: isDashboard
         },
         {
-            title: "Settings", icon: <MdOutlineSettings/>, location: "/room/:id/setting", isHidden: isDashboard
+            title: "Settings", icon: <MdOutlineSettings/>, location: "/room/"+id+"/setting", isHidden: isDashboard
         },
         {
-            title: "Students", icon: <MdPeopleAlt/>, location: "/room/:id/students", isHidden: isDashboard
+            title: "Students", icon: <MdPeopleAlt/>, location: "/room/"+id+"/students", isHidden: isDashboard
         },
         {
-            title: "Quizzes", icon: <MdOutlineLibraryBooks/>, location: "/room/:id/quizzes", isHidden: isDashboard
+            title: "Quizzes", icon: <MdOutlineLibraryBooks/>, location: "/room/"+id+"/quizzes", isHidden: isDashboard
         },
         {
-            title: "Results", icon: <BsBarChartLineFill/>, location: "/room/:id/results", isHidden: isDashboard
+            title: "Results", icon: <BsBarChartLineFill/>, location: "/room/"+id+"/results", isHidden: isDashboard
         }
     ]
 

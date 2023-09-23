@@ -1,5 +1,5 @@
 import { Card } from "primereact/card"
-import { Link } from "react-router-dom";
+import { Link } from "react-router-dom"
 
 const header = (
     <img
@@ -37,10 +37,9 @@ const formatter = (timestamp) => {
 }
 
 const Room = (props) => {
-    const room_id = props.id
-    const link = `/room/${room_id}`
+    
     return (
-        <Link to={link}>
+        <Link to={`/room/${props.id}`}>
             <div className="card flex justify-evenly">
                 <Card 
                     title={props.title} 

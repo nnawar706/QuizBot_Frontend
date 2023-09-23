@@ -16,7 +16,7 @@ const Sidebar = () => {
 
     const { authInfo } = useSelector((state) => state.auth)
 
-    const isDashboard = location.pathname === '/dashboard'
+    const isDashboard = location.pathname === '/'
 
     const { data, isFetching } = useGetAuthUserDetailsQuery("userDetails", {
         pollingInterval: 900000, // 15mins
@@ -29,7 +29,7 @@ const Sidebar = () => {
 
     const menus = [
         {
-            title: "Dashboard", icon: <MdDashboardCustomize/>, location: "/dashboard", isHidden: !isDashboard
+            title: "Dashboard", icon: <MdDashboardCustomize/>, location: "/", isHidden: !isDashboard
         },
         {
             title: "Room", icon: <MdDashboardCustomize/>, location: "/room/:id", isHidden: isDashboard

@@ -47,7 +47,7 @@ const Room = (props) => {
                     subTitle={formatter(props.created_at)} 
                     header={header} 
                     footer={footer} 
-                    className="mx-4 my-4 w-[300px] h-[400px] md:w-25rem"
+                    className="mx-4 my-4 w-[300px] h-[300px] md:w-25rem"
                     >
                     <p className="m-0">{props.detail}</p>
                 </Card>

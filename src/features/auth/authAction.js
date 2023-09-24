@@ -19,11 +19,37 @@ export const userLogin = createAsyncThunk(
 
             // store user's token in local storage
             // localStorage.setItem('userToken', data.userToken)
-            localStorage.setItem("refreshToken", data.refresh_token);
+            localStorage.setItem("refreshToken", data.refresh_token)
 
             return data
         } catch (err) {
-            return rejectWithValue(err?.response?.data?.detail || err.message);
+            return rejectWithValue(err?.response?.data?.detail || err.message)
+        }
+    }
+)
+
+export const userLogout = createAsyncThunk(
+    'logout',
+    async({ refresh_token }, { rejectWithValue }) => {
+        try {
+            const config = {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${getState().auth.authToken}`
+                }
+            }
+
+            const { data } = await axios.post(
+                'http://localhost:8000/api/v1/logout',
+                { refresh_token },
+                config
+            )
+
+            localStorage.removeItem('refreshToken')
+
+            return data
+        } catch (err) {
+            return rejectWithValue(err?.response?.data?.error || err.message)
         }
     }
 )

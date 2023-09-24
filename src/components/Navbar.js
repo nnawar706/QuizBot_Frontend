@@ -1,4 +1,5 @@
 import { useState, useRef } from 'react'
+import {useDispatch, useSelector} from "react-redux"
 import { Dialog } from 'primereact/dialog'
 import { Toast } from "primereact/toast"
 
@@ -24,7 +25,7 @@ const Navbar = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault()
-        // console.log(title, detail)
+
         storeRoom({ title, detail })
             .unwrap()
             .then(() => {

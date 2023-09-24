@@ -7,6 +7,7 @@ import { BsPlusSquareFill } from "react-icons/bs"
 import { MdOutlineLogout } from "react-icons/md"
 
 import { useAddNewRoomMutation } from "../backend/sevices/rooms/roomService";
+import {userLogin, userLogout} from "../features/auth/authAction"
 
 const Navbar = () => {
     const [storeRoom, { isLoading }] = useAddNewRoomMutation();
@@ -49,7 +50,7 @@ const Navbar = () => {
     };
     
     const logout = () => {
-
+        // dispatch(userLogout({email, password}))
     }
 
     return (

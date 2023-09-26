@@ -1,25 +1,26 @@
-import { useEffect, useRef, useState } from "react";
-import { Toast } from "primereact/toast";
-import { useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { BsEyeFill, BsEyeSlashFill } from "react-icons/bs";
-import { FcGoogle } from "react-icons/fc";
+import { useEffect, useRef, useState } from "react"
+import { Toast } from "primereact/toast"
+import { useNavigate } from "react-router-dom"
+import { useDispatch, useSelector } from "react-redux"
+import { BsEyeFill, BsEyeSlashFill } from "react-icons/bs"
+import { FcGoogle } from "react-icons/fc"
 
-import Layout from "../components/Layout";
-import { loginBg } from "../images";
-import { userLogin } from "../features/auth/authAction";
+import Layout from "../components/Layout"
+import { loginBg } from "../images"
+import { userRegistration } from "../features/auth/authAction"
 
-const Login = () => {
+const Register = () => {
   const { loading, error, success } = useSelector((state) => state.auth);
-  // const toast = useRef(null);
+  // const toast = useRef(null)
   const userRef = useRef()
+  const [name, setName] = useState("")
   const [email, setEmail] = useState("")
-  const [isChecked, setIsChecked] = useState("")
-  const [password, setPassword] = useState("");
-  const [showPWD, setShowPWD] = useState(false);
-  // const navigate = useNavigate();
+  const [isChecked, setIsChecked] = useState(false)
+  const [password, setPassword] = useState("")
+  const [showPWD, setShowPWD] = useState(false)
+  // const navigate = useNavigate()
 
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch()
 
   // useEffect(() => {
   //   if (error) {
@@ -46,16 +47,21 @@ const Login = () => {
   // }, [navigate, success, error]);
 
   const handleCheckboxChange = () => {
-    setIsChecked(!isChecked);
+    setIsChecked(!isChecked)
   }
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
+    // e.preventDefault()
+    console.log(isChecked)
     // dispatch(userLogin({ email, password }))
   }
   const togglePasswordVisibility = () => {
     setShowPWD(!showPWD)
   }
+
+  const handleNameInput = (e) => {
+    setName(e.target.value)
+  };
 
   const handleEmailInput = (e) => {
     setEmail(e.target.value)
@@ -69,7 +75,7 @@ const Login = () => {
     <Layout title="QuizBot | Register" content="Registration Page">
       <section className="bg-white min-h-screen flex items-center justify-center">
         {/* <Toast ref={toast} /> */}
-        <div className="bg-very-light-green flex rounded-2xl shadow-lg max-w-3xl h-[500px] p-5">
+        <div className="bg-very-light-green flex rounded-2xl shadow-lg max-w-3xl h-[550px] p-5">
           {/* Registration form */}
           <div className="sm:w-1/2 text-dark-green px-16">
             <h2 className="font-bold text-2xl">Register</h2>
@@ -83,11 +89,22 @@ const Login = () => {
             <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
               <input
                 className="p-2 mt-8 rounded-xl border"
+                type="text"
+                name="name"
+                id="name"
+                value={name}
+                ref={userRef}
+                placeholder="Name"
+                autoComplete="off"
+                onChange={handleNameInput}
+                required
+              ></input>
+              <input
+                className="p-2 rounded-xl border"
                 type="email"
                 name="email"
                 id="email"
                 value={email}
-                ref={userRef}
                 placeholder="Email"
                 autoComplete="off"
                 onChange={handleEmailInput}
@@ -117,15 +134,26 @@ const Login = () => {
                   />
                 )}
               </div>
-              
+
               <div className="flex items-center">
-                  <input type="checkbox" value="" className="w-4 h-4 text-blue-600 bg-gray-100 
-                  border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
-                  <label for="link-checkbox" className="ml-2 text-sm text-dark-green">
-                    Register as a faculty.
-                  </label>
+                <input
+                  type="checkbox"
+                  value=""
+                  className="w-4 h-4 text-blue-600 bg-gray-100 
+                  border-gray-300 rounded focus:ring-blue-500 
+                  dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 
+                  dark:bg-gray-700 dark:border-gray-600"
+                  checked={isChecked}
+                  onChange={handleCheckboxChange} 
+                />
+                <label
+                  for="link-checkbox"
+                  className="ml-2 text-sm text-dark-green"
+                >
+                  Register as a faculty.
+                </label>
               </div>
-              
+
               <button
                 className="bg-dark-green text-medium text-white rounded-xl py-2"
                 type="submit"
@@ -166,4 +194,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Register

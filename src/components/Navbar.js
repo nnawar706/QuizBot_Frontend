@@ -78,7 +78,10 @@ const Navbar = () => {
     };
     
     const logout = () => {
-        // dispatch(userLogout({email, password}))
+        const refresh_token = localStorage.getItem('refreshToken')
+        localStorage.removeItem('refreshToken')
+        // console.log('token',  refresh_token)
+        dispatch(userLogout({refresh_token}))
     }
 
     return (

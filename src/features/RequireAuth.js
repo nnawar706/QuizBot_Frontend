@@ -12,40 +12,32 @@ const RequireAuth = () => {
     {
         return (
             <div className="leading-normal text-white gradient">
-                {/* <h1>Unauthorized :(</h1>
-                <span>
-                <NavLink to="/login">Login</NavLink> to gain access
-                </span> */}
-                <nav className="fixed w-full z-30 top-0 text-white">
+                <nav className="fixed w-full z-30 top-5 text-white">
                     <div className="w-full container mx-auto flex flex-wrap items-center justify-between mt-0 py-2">
                         <div className="pl-4 flex items-center">
-                            <a className="text-white no-underline hover:font-bold text-2xl lg:text-4xl" href="">
-                                <img src={logo} alt="logo" className="border"/>
-                                <span>QUIZBOT</span>
+                            <a className="inline-flex text-white no-underline hover:font-bold text-2xl lg:text-4xl" href="">
+                                <img src={logo} alt="logo" className="h-[68px]"/>
+                                <span className="ml-2 mt-5 font-medium">QUIZBOT.</span>
                             </a>
                         </div>
                     </div>
-                    {/* <hr className="border-b border-gray-100 opacity-25 my-0 py-0"/> */}
                 </nav>
                 {/* Hero section */}
                 <section className="pt-24 h-screen bg-gradient-to-r from-dark-green via-green-200 to-green-300">
                     <div className="container px-3 mx-auto flex flex-wrap flex-col md:flex-row items-center">
                         <div className="flex flex-col w-full md:w-2/5 justify-center items-start text-center md:text-left">
-                            <p className="uppercase tracking-loose w-full">
-                                What are you doing?
-                            </p>
-                            <h1 className="my-4 text-5xl font-fold leading-tight">
-                                Main hero message to sell yourself.
-                            </h1>
-                            <p className="leading-normal text-2xl md-8">
-                                sub text here
+                            <h3 className="uppercase text-2xl tracking-loose w-full my-4">
+                                QuizBot: Unleash your inner quiz whiz!
+                            </h3>
+                            <p className="leading-normal md-8">
+                                Your go-to platform for interactive quizzes that engage, challenge, and enhance your learning experience
                             </p>
                             <div>
                                 <button className="bg-dark-green text-white text-sm font-bold mt-10 py-2 px-4 rounded">
-                                    Login
+                                    <a href="/login">Login</a>
                                 </button>
                                 <button className="ml-4 bg-dark-green text-white text-sm font-bold mt-10 py-2 px-4 rounded">
-                                    Register
+                                    <a href="/register">Register</a>
                                 </button>
                             </div>
                         </div>

@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit"
 
-import { userLogin } from "./authAction"
+import { userLogin, userLogout } from "./authAction"
 import { userRefresh } from "./refreshAuthAction"
 
 const initialState = {
@@ -39,6 +39,14 @@ const authSlice = createSlice({
         [userRefresh.rejected]: (state, { payload }) => {
             state.error = payload
         },
+        [userLogout.fulfilled]: (state) => {
+            state.authToken = null
+            state.authInfo  = {}
+            state.success   = true
+        },
+        [userLogout.rejected]: (state, { payload }) => {
+            state.error   = payload
+        }
     },
 });
 

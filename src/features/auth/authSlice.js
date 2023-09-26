@@ -54,6 +54,7 @@ const authSlice = createSlice({
         [userRegistration.fulfilled]: (state) => {
             state.success = true
             state.loading = false
+            state.error = null
         },
         [userRegistration.rejected]: (state, { payload }) => {
             state.error = payload

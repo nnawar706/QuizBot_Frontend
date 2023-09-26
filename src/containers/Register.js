@@ -40,7 +40,7 @@ const Register = () => {
       })
 
       setTimeout(() => {
-        navigate("/login")
+        navigate("/")
       }, 500)
     }
   }, [navigate, success, error]);

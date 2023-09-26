@@ -8,16 +8,17 @@ import { BsPlusSquareFill } from "react-icons/bs"
 import { MdOutlineLogout } from "react-icons/md"
 
 import { useAddNewRoomMutation } from "../backend/sevices/rooms/roomService";
-import {userLogin, userLogout} from "../features/auth/authAction"
+import { userLogout } from "../features/auth/authAction"
 
 const Navbar = () => {
-    const { authToken, error, success } = useSelector(
+    const { authToken, authInfo, error, success } = useSelector(
         (state) => state.auth
-    );
-    const [storeRoom, { isLoading }] = useAddNewRoomMutation();
+    )
+    const [storeRoom, { isLoading }] = useAddNewRoomMutation()
     const [visible, setVisible] = useState(false)
     const [title, setTitle] = useState('')
     const [detail, setDetail] = useState('')
+    const [token, setToken] = useState('')
     const toast = useRef(null)
     const dispatch = useDispatch()
     const navigate = useNavigate()
@@ -29,7 +30,7 @@ const Navbar = () => {
                 summary: "Success",
                 detail: 'Logout Successful',
                 life: 1000,
-            });
+            })
 
             navigate("/login")
         }
@@ -40,7 +41,7 @@ const Navbar = () => {
                 summary: "Error",
                 detail: error,
                 life: 3000,
-            });
+            })
         }
     }, [navigate, success, error, authToken]);
 
@@ -50,9 +51,13 @@ const Navbar = () => {
 
     const handleDetailInput = (e) => {
         setDetail(e.target.value)
+    }
+
+    const handleTokenInput = (e) => {
+        setToken(e.target.value)
     };
 
-    const handleSubmit = async (e) => {
+    const handleRoomSubmit = async (e) => {
         e.preventDefault()
 
         storeRoom({ title, detail })
@@ -75,7 +80,11 @@ const Navbar = () => {
                     life: 3000,
                 })
             })
-    };
+    }
+
+    const handleRoomJoinSubmit = async (e) => {
+        e.preventDefault()
+    }
     
     const logout = () => {
         const refresh_token = localStorage.getItem('refreshToken')
@@ -95,7 +104,7 @@ const Navbar = () => {
     </section>
     <div className="card flex justify-content-center">
         <Dialog header="Create New Room" visible={visible} style={{ width: '50vw',height: '33vh' }} onHide={() => setVisible(false)}>
-            <form className="flex flex-col" onSubmit={handleSubmit}>
+            <form className="flex flex-col" onSubmit={handleRoomSubmit}>
                 <input
                     className="p-2 mt-4 rounded border"
                     type="text"
@@ -118,8 +127,9 @@ const Navbar = () => {
                     onChange={handleDetailInput}
                     required
                 ></input>
-                <button className="bg-dark-green text-white text-sm font-bold mt-10 py-2 px-4 rounded">
-                    Submit
+                <button className="bg-dark-green text-white text-sm font-bold mt-10 py-2 px-4 rounded"
+                disabled={isLoading}>
+                    {isLoading ? "Processing" : "Submit"}
                 </button>
             </form>
         </Dialog>
@@ -127,5 +137,26 @@ const Navbar = () => {
     <Toast ref={toast} />
     </>
 )}
+const join_room = (token, handleTokenInput, handleRoomJoinSubmit, isLoading) => {
+    return (
+        <form className="flex flex-col" onSubmit={handleRoomJoinSubmit}>
+            <input
+                className="p-2 mt-4 rounded border"
+                type="text"
+                name="detail"
+                value={token}
+                id="token"
+                placeholder="Token"
+                autoComplete="off"
+                onChange={handleTokenInput}
+                required
+            ></input>
+            <button className="bg-dark-green text-white text-sm font-bold mt-10 py-2 px-4 rounded"
+            disabled={isLoading}>
+                {isLoading ? "Processing" : "Submit"}
+            </button>
+        </form>
+    )
+}
 
 export default Navbar

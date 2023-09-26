@@ -11,7 +11,7 @@ import { useAddNewRoomMutation } from "../backend/sevices/rooms/roomService";
 import {userLogin, userLogout} from "../features/auth/authAction"
 
 const Navbar = () => {
-    const { authInfo, authToken, error, success } = useSelector(
+    const { authToken, error, success } = useSelector(
         (state) => state.auth
     );
     const [storeRoom, { isLoading }] = useAddNewRoomMutation();
@@ -79,8 +79,6 @@ const Navbar = () => {
     
     const logout = () => {
         const refresh_token = localStorage.getItem('refreshToken')
-        localStorage.removeItem('refreshToken')
-        // console.log('token',  refresh_token)
         dispatch(userLogout({refresh_token}))
     }
 
@@ -91,7 +89,7 @@ const Navbar = () => {
             <BsPlusSquareFill onClick={() => setVisible(true)} 
             className="absolute right-20 h-7 w-7 text-dark-green cursor-pointer" />
             
-            <MdOutlineLogout onclick={() => logout} 
+            <MdOutlineLogout onClick={() => logout()} 
             className="absolute right-8 h-7 w-7 text-dark-green cursor-pointer"/>
         </div>
     </section>

@@ -1,5 +1,6 @@
-import { useState, useRef } from 'react'
-import {useDispatch, useSelector} from "react-redux"
+import { useState, useEffect, useRef } from 'react'
+import { useDispatch, useSelector } from "react-redux"
+import { useNavigate } from "react-router-dom"
 import { Dialog } from 'primereact/dialog'
 import { Toast } from "primereact/toast"
 
@@ -10,11 +11,38 @@ import { useAddNewRoomMutation } from "../backend/sevices/rooms/roomService";
 import {userLogin, userLogout} from "../features/auth/authAction"
 
 const Navbar = () => {
+    const { authInfo, authToken, error, success } = useSelector(
+        (state) => state.auth
+    );
     const [storeRoom, { isLoading }] = useAddNewRoomMutation();
     const [visible, setVisible] = useState(false)
     const [title, setTitle] = useState('')
     const [detail, setDetail] = useState('')
     const toast = useRef(null)
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
+
+    useEffect(() => {
+        if(!authToken) {
+            toast.current.show({
+                severity: "success",
+                summary: "Success",
+                detail: 'Logout Successful',
+                life: 1000,
+            });
+
+            navigate("/login")
+        }
+
+        if (error) {
+            toast.current.show({
+                severity: "error",
+                summary: "Error",
+                detail: error,
+                life: 3000,
+            });
+        }
+    }, [navigate, success, error, authToken]);
 
     const handleTitleInput = (e) => {
         setTitle(e.target.value)

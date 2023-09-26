@@ -7,53 +7,53 @@ import { FcGoogle } from "react-icons/fc"
 
 import Layout from "../components/Layout"
 import { loginBg } from "../images"
-import { userRegistration } from "../features/auth/authAction"
+import { userRegistration } from "../features/auth/registerUserAction"
 
 const Register = () => {
   const { loading, error, success } = useSelector((state) => state.auth);
-  // const toast = useRef(null)
+  const toast = useRef(null)
   const userRef = useRef()
   const [name, setName] = useState("")
   const [email, setEmail] = useState("")
   const [isChecked, setIsChecked] = useState(false)
   const [password, setPassword] = useState("")
   const [showPWD, setShowPWD] = useState(false)
-  // const navigate = useNavigate()
-
+  const navigate = useNavigate()
   const dispatch = useDispatch()
 
-  // useEffect(() => {
-  //   if (error) {
-  //     toast.current.show({
-  //       severity: "error",
-  //       summary: "Error",
-  //       detail: error,
-  //       life: 3000,
-  //     });
-  //   }
+  useEffect(() => {
+    if (error) {
+      toast.current.show({
+        severity: "error",
+        summary: "Error",
+        detail: error,
+        life: 3000,
+      })
+    }
 
-  //   if (success) {
-  //     toast.current.show({
-  //       severity: "success",
-  //       summary: "Success",
-  //       detail: "Login successful",
-  //       life: 1000,
-  //     });
+    if (success) {
+      toast.current.show({
+        severity: "success",
+        summary: "Success",
+        detail: "Registration successful",
+        life: 1000,
+      })
 
-  //     setTimeout(() => {
-  //       navigate("/dashboard");
-  //     }, 500);
-  //   }
-  // }, [navigate, success, error]);
+      setTimeout(() => {
+        navigate("/login")
+      }, 500)
+    }
+  }, [navigate, success, error]);
 
   const handleCheckboxChange = () => {
     setIsChecked(!isChecked)
   }
 
   const handleSubmit = async (e) => {
-    // e.preventDefault()
-    console.log(isChecked)
-    // dispatch(userLogin({ email, password }))
+    e.preventDefault()
+    
+    const role = isChecked ? 2 : 3
+    dispatch(userRegistration({ name, email, password, role }))
   }
   const togglePasswordVisibility = () => {
     setShowPWD(!showPWD)
@@ -74,7 +74,7 @@ const Register = () => {
   return (
     <Layout title="QuizBot | Register" content="Registration Page">
       <section className="bg-white min-h-screen flex items-center justify-center">
-        {/* <Toast ref={toast} /> */}
+        <Toast ref={toast} />
         <div className="bg-very-light-green flex rounded-2xl shadow-lg max-w-3xl h-[550px] p-5">
           {/* Registration form */}
           <div className="sm:w-1/2 text-dark-green px-16">

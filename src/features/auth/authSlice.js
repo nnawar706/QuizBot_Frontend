@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit"
 
 import { userLogin, userLogout } from "./authAction"
 import { userRefresh } from "./refreshAuthAction"
+import { userRegistration } from "./registerUserAction"
 
 const initialState = {
     loading: false,
@@ -46,6 +47,17 @@ const authSlice = createSlice({
         },
         [userLogout.rejected]: (state, { payload }) => {
             state.error   = payload
+        },
+        [userRegistration.pending]: (state) => {
+            state.loading = true
+        },
+        [userRegistration.fulfilled]: (state) => {
+            state.success = true
+            state.loading = false
+        },
+        [userRegistration.rejected]: (state, { payload }) => {
+            state.error = payload
+            state.loading = false
         }
     },
 });

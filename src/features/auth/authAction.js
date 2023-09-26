@@ -1,5 +1,5 @@
-import axios from "axios";
-import { createAsyncThunk } from "@reduxjs/toolkit";
+import axios from "axios"
+import { createAsyncThunk } from "@reduxjs/toolkit"
 
 export const userLogin = createAsyncThunk(
     'login',
@@ -17,8 +17,7 @@ export const userLogin = createAsyncThunk(
                 config
             )
 
-            // store user's token in local storage
-            // localStorage.setItem('userToken', data.userToken)
+            // store user's refresh token in local storage
             localStorage.setItem("refreshToken", data.refresh_token)
 
             return data
@@ -46,29 +45,6 @@ export const userLogout = createAsyncThunk(
             )
 
             localStorage.removeItem('refreshToken')
-
-            return data
-        } catch (err) {
-            return rejectWithValue(err?.response?.data?.error || err.message)
-        }
-    }
-)
-
-export const userRegistration = createAsyncThunk(
-    'register',
-    async ({ name, email, password, role }, { rejectWithValue }) => {
-        try {
-            const config = {
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            }
-
-            const data = await axios.post(
-                'http://localhost:8000/api/v1/users/register',
-                { name, email, password, role },
-                config
-            )
 
             return data
         } catch (err) {

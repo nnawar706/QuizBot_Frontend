@@ -30,7 +30,7 @@ export const userLogin = createAsyncThunk(
 
 export const userLogout = createAsyncThunk(
     'logout',
-    async({ refresh_token }, { rejectWithValue }) => {
+    async({ refresh_token }, { getState, rejectWithValue }) => {
         try {
             const config = {
                 headers: {

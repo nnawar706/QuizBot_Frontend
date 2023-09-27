@@ -10,7 +10,7 @@ const header = (
 
 const footer = (
     <div className="flex flex-wrap justify-content-end gap-2">
-        
+
     </div>
 )
 
@@ -27,7 +27,7 @@ const formatter = (timestamp) => {
 
     if (days >= 2) {
         return `${days} days ago`
-    } else if (hours >= 1) {
+    } else if (hours >= 2) {
         return `${hours} hours ago`
     }else if (minutes >= 2) {
         return `${minutes} minutes ago`
@@ -37,21 +37,21 @@ const formatter = (timestamp) => {
 }
 
 const Room = (props) => {
-    
+
     return (
         <Link to={`/room/${props.id}`}>
             <div className="card flex justify-evenly">
-                <Card 
-                    title={props.title} 
-                    subTitle={formatter(props.created_at)} 
-                    header={header} 
-                    footer={footer} 
+                <Card
+                    title={props.title}
+                    subTitle={formatter(props.created_at)}
+                    header={header}
+                    footer={footer}
                     className="mx-4 my-4 w-[300px] h-[300px] md:w-25rem"
-                    >
+                >
                     <p className="m-0">{props.detail}</p>
                 </Card>
             </div>
         </Link>
-)}
+    )}
 
 export default Room

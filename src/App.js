@@ -1,9 +1,8 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom"
-import { useSelector } from "react-redux"
+import { useSelector, useDispatch } from "react-redux"
 import "primereact/resources/themes/saga-green/theme.css"
 import "primereact/resources/primereact.min.css"
-import { useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useEffect } from "react"
 
 import RequireAuth from "./features/RequireAuth"
 import Dashboard from "./containers/Dashboard"
@@ -12,6 +11,8 @@ import Register from "./containers/Register"
 import RoomDashboard from "./containers/RoomDashboard"
 import "./styles/main.scss"
 import { userRefresh } from "./features/auth/refreshAuthAction"
+import Students from "./containers/Students"
+import Quizzes from "./containers/Quizzes"
 
 const App = () => {
   const { authInfo } = useSelector((state) => state.auth)
@@ -40,10 +41,12 @@ const App = () => {
           <Route element={<RequireAuth />}>
             <Route path="" element={<Dashboard />} />
             <Route path="room/:id" element={<RoomDashboard />} />
+            <Route path="room/:id/students" element={<Students />} />
+            <Route path="room/:id/quizzes" element={<Quizzes />} />
           </Route>
       </Routes>
     </Router>
   );
 };
 
-export default App;
+export default App

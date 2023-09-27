@@ -14,7 +14,7 @@ const Navbar = () => {
     const { authToken, authInfo, error, success } = useSelector(
         (state) => state.auth
     )
-    const [storeRoom, { isLoading }] = useAddNewRoomMutation()
+    const [storeRoom, isLoading ] = useAddNewRoomMutation()
     const [visible, setVisible] = useState(false)
     const [title, setTitle] = useState('')
     const [detail, setDetail] = useState('')
@@ -103,35 +103,22 @@ const Navbar = () => {
         </div>
     </section>
     <div className="card flex justify-content-center">
-        <Dialog header="Create New Room" visible={visible} style={{ width: '50vw',height: '33vh' }} onHide={() => setVisible(false)}>
-            <form className="flex flex-col" onSubmit={handleRoomSubmit}>
-                <input
-                    className="p-2 mt-4 rounded border"
-                    type="text"
-                    name="title"
-                    value={title}
-                    id="title"
-                    placeholder="Title"
-                    autoComplete="off"
-                    onChange={handleTitleInput}
-                    required
-                ></input>
-                <input
-                    className="p-2 mt-4 rounded border"
-                    type="text"
-                    name="detail"
-                    value={detail}
-                    id="detail"
-                    placeholder="Detail"
-                    autoComplete="off"
-                    onChange={handleDetailInput}
-                    required
-                ></input>
-                <button className="bg-dark-green text-white text-sm font-bold mt-10 py-2 px-4 rounded"
-                disabled={isLoading}>
-                    {isLoading ? "Processing" : "Submit"}
-                </button>
-            </form>
+        <Dialog header={authInfo.role === 2 ? "Create New Room" : "Join Room"} visible={visible} style={{ width: '50vw',height: '33vh' }} onHide={() => setVisible(false)}>
+            {authInfo.role === 2 ?
+                create_room(
+                    title,
+                    detail,
+                    handleTitleInput,
+                    handleDetailInput,
+                    handleRoomSubmit,
+                    isLoading
+                ) :
+                join_room(
+                    token,
+                    handleTokenInput,
+                    handleRoomJoinSubmit,
+                    isLoading
+                )}
         </Dialog>
     </div>
     <Toast ref={toast} />
@@ -158,5 +145,36 @@ const join_room = (token, handleTokenInput, handleRoomJoinSubmit, isLoading) => 
         </form>
     )
 }
+
+const create_room = (title, detail, handleTitleInput, handleDetailInput, handleRoomSubmit, isLoading) => (
+    <form className="flex flex-col" onSubmit={handleRoomSubmit}>
+        <input
+            className="p-2 mt-4 rounded border"
+            type="text"
+            name="title"
+            value={title}
+            id="title"
+            placeholder="Title"
+            autoComplete="off"
+            onChange={handleTitleInput}
+            required
+        ></input>
+        <input
+            className="p-2 mt-4 rounded border"
+            type="text"
+            name="detail"
+            value={detail}
+            id="detail"
+            placeholder="Detail"
+            autoComplete="off"
+            onChange={handleDetailInput}
+            required
+        ></input>
+        <button className="bg-dark-green text-white text-sm font-bold mt-10 py-2 px-4 rounded"
+                disabled={isLoading}>
+            {isLoading ? "Processing" : "Submit"}
+        </button>
+    </form>
+)
 
 export default Navbar

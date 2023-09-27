@@ -21,7 +21,7 @@ export const roomsApi = createApi({
             }),
             providesTags: ['Rooms']
         }),
-        
+
         addNewRoom: builder.mutation({
             query: ({ title, detail }) => ({
                 url: "api/v1/rooms/",
@@ -30,7 +30,16 @@ export const roomsApi = createApi({
             }),
             invalidatesTags: ['Rooms']
         }),
+
+        joinRoom: builder.mutation({
+            query: ({ secret }) => ({
+                url: "api/v1/rooms/join_room",
+                method: "POST",
+                body: { secret }
+            }),
+            invalidatesTags: ['Rooms']
+        })
     }),
 });
 
-export const { useGetRoomsQuery, useAddNewRoomMutation } = roomsApi
+export const { useGetRoomsQuery, useAddNewRoomMutation, useJoinRoomMutation } = roomsApi

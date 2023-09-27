@@ -1,49 +1,47 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useRef } from 'react'
 import { useDispatch, useSelector } from "react-redux"
-import { useNavigate } from "react-router-dom"
 import { Dialog } from 'primereact/dialog'
 import { Toast } from "primereact/toast"
 
 import { BsPlusSquareFill } from "react-icons/bs"
 import { MdOutlineLogout } from "react-icons/md"
 
-import { useAddNewRoomMutation } from "../backend/sevices/rooms/roomService";
+import { useAddNewRoomMutation, useJoinRoomMutation } from "../backend/sevices/rooms/roomService"
 import { userLogout } from "../features/auth/authAction"
 
 const Navbar = () => {
-    const { authToken, authInfo, error, success } = useSelector(
+    const { authInfo } = useSelector(
         (state) => state.auth
     )
-    const [storeRoom, isLoading ] = useAddNewRoomMutation()
+    const [storeRoom, { isLoading: addNewRoomLoading } ] = useAddNewRoomMutation()
+    const [joinRoom, { isLoading: joinRoomLoading }] = useJoinRoomMutation()
     const [visible, setVisible] = useState(false)
     const [title, setTitle] = useState('')
     const [detail, setDetail] = useState('')
-    const [token, setToken] = useState('')
+    const [secret, setToken] = useState('')
     const toast = useRef(null)
     const dispatch = useDispatch()
-    const navigate = useNavigate()
 
-    useEffect(() => {
-        if(!authToken) {
-            toast.current.show({
-                severity: "success",
-                summary: "Success",
-                detail: 'Logout Successful',
-                life: 1000,
-            })
-
-            navigate("/login")
-        }
-
-        if (error) {
-            toast.current.show({
-                severity: "error",
-                summary: "Error",
-                detail: error,
-                life: 3000,
-            })
-        }
-    }, [navigate, success, error, authToken]);
+    // useEffect(() => {
+    //     if(success) {
+    //         toast.current.show({
+    //             severity: "success",
+    //             summary: "Success",
+    //             detail: authInfo.role === 2 ? 'Successfully created a new room.' :
+    //                 'Successfully joined a new room.',
+    //             life: 3000,
+    //         })
+    //     }
+    //
+    //     if (error) {
+    //         toast.current.show({
+    //             severity: "error",
+    //             summary: "Error",
+    //             detail: error,
+    //             life: 3000,
+    //         })
+    //     }
+    // }, [navigate, success, error, authInfo]);
 
     const handleTitleInput = (e) => {
         setTitle(e.target.value)
@@ -65,6 +63,7 @@ const Navbar = () => {
             .then(() => {
                 setTitle('')
                 setDetail('')
+                setVisible(false)
                 toast.current.show({
                     severity: "success",
                     summary: "Success",
@@ -73,6 +72,7 @@ const Navbar = () => {
                 })
             })
             .catch((err) => {
+                setVisible(false)
                 toast.current.show({
                     severity: "error",
                     summary: "Error",
@@ -84,6 +84,27 @@ const Navbar = () => {
 
     const handleRoomJoinSubmit = async (e) => {
         e.preventDefault()
+
+        joinRoom({ secret })
+            .unwrap()
+            .then(() => {
+                setToken('')
+                setVisible(false)
+                toast.current.show({
+                    severity: "success",
+                    summary: "Success",
+                    detail: "Joined new room.",
+                    life: 3000,
+                })
+            })
+            .catch((err) => {
+                toast.current.show({
+                    severity: "error",
+                    summary: "Error",
+                    detail: err?.data?.error,
+                    life: 3000,
+                })
+            })
     }
     
     const logout = () => {
@@ -111,28 +132,28 @@ const Navbar = () => {
                     handleTitleInput,
                     handleDetailInput,
                     handleRoomSubmit,
-                    isLoading
+                    addNewRoomLoading
                 ) :
                 join_room(
-                    token,
+                    secret,
                     handleTokenInput,
                     handleRoomJoinSubmit,
-                    isLoading
+                    joinRoomLoading
                 )}
         </Dialog>
     </div>
     <Toast ref={toast} />
     </>
 )}
-const join_room = (token, handleTokenInput, handleRoomJoinSubmit, isLoading) => {
+const join_room = (secret, handleTokenInput, handleRoomJoinSubmit, isLoading) => {
     return (
         <form className="flex flex-col" onSubmit={handleRoomJoinSubmit}>
             <input
                 className="p-2 mt-4 rounded border"
                 type="text"
                 name="detail"
-                value={token}
-                id="token"
+                value={secret}
+                id="secret"
                 placeholder="Token"
                 autoComplete="off"
                 onChange={handleTokenInput}

@@ -32,7 +32,7 @@ const RoomDashboard = () => {
                             ) : ''} */}
                         </div>
                         
-                        <section class="grid grid-cols-1 gap-8 p-4 lg:grid-cols-2 xl:grid-cols-4">
+                        <section class="grid grid-cols-2 gap-8 p-4 lg:grid-cols-2 xl:grid-cols-4">
                             {
                                 headings.map((item, index) => {
                                     return (<CardHeader 
@@ -43,6 +43,12 @@ const RoomDashboard = () => {
                                     />)
                                 })
                             }
+                        </section>
+
+                        <section className="grid grid-cols-2 gap-8">
+                            <div>
+                                
+                            </div>
                         </section>
                     </div>
                 </div>

@@ -19,15 +19,15 @@ const App = () => {
 
   const current_token = authInfo.authToken
   
-  // useEffect(() => {
-  //   if (!current_token) {
-  //     const refresh = localStorage.getItem("refreshToken")
+  useEffect(() => {
+    if (!current_token) {
+      const refresh = localStorage.getItem("refreshToken")
       
-  //     if (refresh) {
-  //       dispatch(userRefresh({refresh}))
-  //     }
-  //   }
-  // }, [current_token, dispatch])
+      if (refresh) {
+        dispatch(userRefresh({refresh}))
+      }
+    }
+  }, [current_token, dispatch])
 
   return (
     <Router>

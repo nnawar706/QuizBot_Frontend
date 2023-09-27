@@ -1,8 +1,11 @@
 import { useParams } from 'react-router-dom'
+import { PiStudentFill, PiNotebookDuotone } from "react-icons/pi"
+import { BsFillBookmarkStarFill } from "react-icons/bs";
 
 import Layout from "../components/Layout"
 import Navbar from "../components/Navbar"
 import Sidebar from "../components/Sidebar"
+import CardHeader from '../components/HeaderCard'
 
 const RoomDashboard = () => {
     const { id } = useParams()
@@ -13,10 +16,52 @@ const RoomDashboard = () => {
                 <Sidebar />
                 <div className="w-full">
                     <Navbar />
-                    <p>room id is {id}</p>
+                    <div className="p-6">
+                        <div className="bg-white rounded-md p-3">
+                            <h1 className="text-2xl font-bold mb-3">Welcome to CSE110 Fall'23 Dashboard</h1>
+                            <p className="mb-0">No pending quiz in this room</p>
+                        </div>
+                        
+                        <section class="grid grid-cols-1 gap-8 p-4 lg:grid-cols-2 xl:grid-cols-4">
+                            {
+                                headings.map((item, index) => {
+                                    return (<CardHeader 
+                                        index={index} 
+                                        title={item.title}
+                                        detail={item.detail}
+                                        icon={item.icon}
+                                    />)
+                                })
+                            }
+                        </section>
+                    </div>
                 </div>
             </section>
         </Layout>
-    )}
+    )
+}
+
+const headings = [
+    {
+        title: 'Students',
+        detail: 10,
+        icon:<PiStudentFill/>
+    },
+    {
+        title: 'Quizzes',
+        detail: 2,
+        icon:<PiNotebookDuotone/>
+    },
+    {
+        title: 'Total Quizzes',
+        detail: 10,
+        icon:<PiStudentFill/>
+    },
+    {
+        title: 'Star Student',
+        detail: "Nafisa Nawer",
+        icon:<BsFillBookmarkStarFill/>
+    }
+]
 
 export default RoomDashboard

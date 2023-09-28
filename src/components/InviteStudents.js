@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from "react"
 import { useParams } from "react-router-dom"
 import { OrderList } from "primereact/orderlist"
 import { Dialog } from "primereact/dialog"
+import { Toast } from "primereact/toast"
 import { useDispatch, useSelector } from "react-redux"
 import { TiDelete } from "react-icons/ti"
 
@@ -11,7 +12,7 @@ const InviteStudents = () => {
     const { id } = useParams()
     const toast = useRef(null)
     const [email, setEmail] = useState()
-    const [visible, setVisible] = useState(true)
+    const [visible, setVisible] = useState(false)
     const [emails, setEmails] = useState([])
     const [sendInvitation, { isLoading: sendInvitationLoading } ] = useSendInvitationMutation()    
     const addEmail = (e) => {
@@ -31,8 +32,8 @@ const InviteStudents = () => {
 
     const handleSendInvitation = async(e) => {
         e.preventDefault()
-
-        sendInvitation({ emails })
+        
+        sendInvitation({ emails, id })
             .unwrap()
             .then(() => {
                 setEmail('')
@@ -70,6 +71,7 @@ const InviteStudents = () => {
 
     return (
         <>
+            <Toast ref={toast} />
             <button 
             className="ml-auto p-2 bg-dark-green text-medium text-white 
             rounded-md py-2"

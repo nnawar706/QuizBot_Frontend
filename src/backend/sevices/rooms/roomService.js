@@ -32,8 +32,8 @@ export const roomsApi = createApi({
         }),
 
         sendInvitation: builder.mutation({
-            query: ({ emails }) => ({
-                url: "api/v1/rooms/send_invitation/",
+            query: ({ emails, id }) => ({
+                url: "api/v1/rooms/send_invitation/"+id,
                 method: "POST",
                 body: { emails }
             })

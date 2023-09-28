@@ -12,7 +12,6 @@ import InviteStudents from '../components/InviteStudents'
 
 const Students = () => {
     const { id } = useParams()
-    const [emails, setEmails] = useState([])
     const { authInfo } = useSelector((state) => state.auth)
 
     return (

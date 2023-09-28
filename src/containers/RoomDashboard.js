@@ -48,7 +48,7 @@ const RoomDashboard = () => {
                             }
                         </section>
 
-                        <section className="grid grid-cols-2 md:grid-cols-1 gap-2 mt-8">
+                        <section className="grid grid-cols-2 gap-7 mt-8">
                             <div className="bg-white p-4 rounded-md">
                                 <ReactEcharts option={option} />
                             </div>

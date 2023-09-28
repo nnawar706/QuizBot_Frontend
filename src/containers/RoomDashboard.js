@@ -25,14 +25,12 @@ const RoomDashboard = () => {
                         <div className="bg-white rounded-md p-3">
                             <h1 className="text-2xl font-bold mb-3">Welcome to CSE110 Fall'23 Dashboard</h1>
                             <p className="mb-0">No pending quiz this week</p>
-                            {/* {authInfo.role === 2 ? (
-                                <button className="mt-4 p-2 bg-dark-green text-medium text-white 
+                            <button className="mt-4 p-2 bg-dark-green text-medium text-white 
                                 rounded-md py-2"
                                     type="submit"
                                 >
-                                    Add New Quiz
+                                    Upgrade
                                 </button>
-                            ) : ''} */}
                         </div>
                         
                         <section class="grid grid-cols-2 gap-8 p-4 lg:grid-cols-2 xl:grid-cols-4">

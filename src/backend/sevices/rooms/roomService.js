@@ -31,6 +31,14 @@ export const roomsApi = createApi({
             invalidatesTags: ['Rooms']
         }),
 
+        sendInvitation: builder.mutation({
+            query: ({ emails }) => ({
+                url: "api/v1/rooms/send_invitation/",
+                method: "POST",
+                body: { emails }
+            })
+        }),
+
         joinRoom: builder.mutation({
             query: ({ secret }) => ({
                 url: "api/v1/rooms/join_room",
@@ -42,4 +50,9 @@ export const roomsApi = createApi({
     }),
 });
 
-export const { useGetRoomsQuery, useAddNewRoomMutation, useJoinRoomMutation } = roomsApi
+export const { 
+    useGetRoomsQuery, 
+    useAddNewRoomMutation, 
+    useJoinRoomMutation,
+    useSendInvitationMutation
+} = roomsApi

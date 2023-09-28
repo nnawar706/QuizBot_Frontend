@@ -22,27 +22,6 @@ const Navbar = () => {
     const toast = useRef(null)
     const dispatch = useDispatch()
 
-    // useEffect(() => {
-    //     if(success) {
-    //         toast.current.show({
-    //             severity: "success",
-    //             summary: "Success",
-    //             detail: authInfo.role === 2 ? 'Successfully created a new room.' :
-    //                 'Successfully joined a new room.',
-    //             life: 3000,
-    //         })
-    //     }
-    //
-    //     if (error) {
-    //         toast.current.show({
-    //             severity: "error",
-    //             summary: "Error",
-    //             detail: error,
-    //             life: 3000,
-    //         })
-    //     }
-    // }, [navigate, success, error, authInfo]);
-
     const handleTitleInput = (e) => {
         setTitle(e.target.value)
     }

@@ -8,8 +8,8 @@ import Layout from "../components/Layout"
 import Navbar from "../components/Navbar"
 import Sidebar from "../components/Sidebar"
 import CardHeader from '../components/HeaderCard'
-import Calendar from '../components/Calendar'
 import QuizCalendar from '../components/Calendar'
+import Quote from '../components/Quote'
 
 const RoomDashboard = () => {
     const { id } = useParams()
@@ -46,13 +46,17 @@ const RoomDashboard = () => {
                             }
                         </section>
 
-                        <section className="grid grid-cols-2 gap-7 mt-8">
+                        <section className="grid grid-cols-2 gap-7">
                             <div className="bg-white p-4 rounded-md">
                                 <ReactEcharts option={option} />
                             </div>
                             <div className="card flex justify-content-center">
                                 <QuizCalendar/>
                             </div>
+                        </section>
+
+                        <section className="grid grid-cols-1">
+                            <Quote/>
                         </section>
                     </div>
                 </div>
@@ -125,7 +129,7 @@ const option = {
             type: "value",
             name: "Precipitation",
             min: 0,
-            max: 250,
+            max: 100,
             interval: 50,
             axisLabel: {
                 formatter: '{value}'

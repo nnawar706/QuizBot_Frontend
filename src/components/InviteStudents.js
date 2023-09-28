@@ -19,8 +19,13 @@ const InviteStudents = () => {
         setEmail("")
     }
 
+    useEffect(() => {
+        console.log(emails)
+    }, [emails])
+
     const removeEmail = (item) => {
-        console.log(item)
+        const updatedEmails = emails.filter((value) => value !== item)
+        setEmails(updatedEmails)
     }
 
     const selectedEmail = (item) => {
@@ -70,6 +75,11 @@ const InviteStudents = () => {
                         itemTemplate={selectedEmail} 
                         header="Selected Student" 
                         />
+                    </div>
+
+                    <div className="mt-4 flex justify-center">
+                        <button className="p-2 bg-dark-green text-white rounded-md text-md font-semibold"
+                        onClick={(e) => addEmail(e)}>Send Invitation</button>
                     </div>
                 </Dialog>
             </div>

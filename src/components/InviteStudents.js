@@ -13,13 +13,15 @@ const InviteStudents = () => {
     const [visible, setVisible] = useState(true)
     const [emails, setEmails] = useState([])
     
+    const addEmail = (e) => {
+        e.preventDefault()
+        if (!emails.includes(email)) setEmails([...emails, email])
+        setEmail("")
+    }
+
     const removeEmail = (item) => {
         console.log(item)
     }
-
-    useEffect(() => {
-        console.log(emails)
-    }, [emails])
 
     const selectedEmail = (item) => {
         return (
@@ -28,7 +30,7 @@ const InviteStudents = () => {
                     <span>{item}</span>
                 </div>
                 <TiDelete className="font-bold text-900 text-[26px] text-dark-green" 
-                onClick={(e) => removeEmail(e.value)}/>
+                onClick={() => removeEmail(item)}/>
             </div>
         )
     }
@@ -59,11 +61,7 @@ const InviteStudents = () => {
                             required
                         ></input>
                         <button className="px-2 bg-dark-green text-white rounded-md ml-1"
-                        onClick={(e) => {
-                            e.preventDefault()
-                            setEmails([...emails, email])
-                            setEmail('')
-                        }}>Add</button>
+                        onClick={(e) => addEmail(e)}>Add</button>
                     </div>
                     <div className="mt-4">
                         <OrderList 

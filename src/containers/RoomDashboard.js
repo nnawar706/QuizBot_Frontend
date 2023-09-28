@@ -1,4 +1,5 @@
 import { useParams } from 'react-router-dom'
+import ReactEcharts from "echarts-for-react"
 import { PiStudentFill, PiNotebookDuotone } from "react-icons/pi"
 import { BsFillBookmarkStarFill } from "react-icons/bs"
 
@@ -7,6 +8,8 @@ import Layout from "../components/Layout"
 import Navbar from "../components/Navbar"
 import Sidebar from "../components/Sidebar"
 import CardHeader from '../components/HeaderCard'
+import Calendar from '../components/Calendar'
+import QuizCalendar from '../components/Calendar'
 
 const RoomDashboard = () => {
     const { id } = useParams()
@@ -45,9 +48,12 @@ const RoomDashboard = () => {
                             }
                         </section>
 
-                        <section className="grid grid-cols-2 gap-8">
-                            <div>
-                                
+                        <section className="grid grid-cols-2 md:grid-cols-1 gap-2 mt-8">
+                            <div className="bg-white p-4 rounded-md">
+                                <ReactEcharts option={option} />
+                            </div>
+                            <div className="card flex justify-content-center">
+                                <QuizCalendar/>
                             </div>
                         </section>
                     </div>
@@ -79,5 +85,102 @@ const headings = [
         icon:<BsFillBookmarkStarFill/>
     }
 ]
+
+const option = {
+    tooltip: {
+        trigger: "axis",
+        axisPointer: {
+            type: "cross",
+            crossStyle: {
+                color: '#999'
+            }
+        }
+    },
+    toolbox: {
+        feature: {
+            magicType: {
+                show: true,
+                type: ['line','bar']
+            },
+            restore: {
+                show: true,
+            },
+            saveAsImage: {
+                show: true
+            }
+        }
+    },
+    legend: {
+        data: ['Evaporation', 'Precipitation', 'Temperature']
+    },
+    xAxis: [
+        {
+            type: "category",
+            data: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+            axisPointer: {
+                type: 'shadow'
+            }
+        }
+    ],
+    yAxis: [
+        {
+            type: "value",
+            name: "Precipitation",
+            min: 0,
+            max: 250,
+            interval: 50,
+            axisLabel: {
+                formatter: '{value}'
+            }
+        },
+        // {
+        //     type: "value",
+        //     name: "Temperature",
+        //     min: 0,
+        //     max: 25,
+        //     interval: 5,
+        //     axisLabel: {
+        //         formatter: '{value}'
+        //     }
+        // },
+    ],
+    series: [
+    {
+        name: 'Evaporation',
+        type: 'bar',
+        tooltip: {
+            valueFormatter: function (value) {
+            return value
+            }
+        },
+        data: [
+            20, 49, 17, 23.2, 25.6, 26.7, 35.6, 12.2, 32.6, 20.0, 16.4, 13.3
+        ]
+        },
+        {
+        name: 'Precipitation',
+        type: 'bar',
+        tooltip: {
+            valueFormatter: function (value) {
+            return value
+            }
+        },
+        data: [
+            2.6, 5.9, 9.0, 26.4, 28.7, 70.7, 175.6, 182.2, 48.7, 18.8, 6.0, 2.3
+        ]
+        },
+        {
+        name: 'Temperature',
+        type: 'line',
+        // yAxisIndex: 1,
+        tooltip: {
+            valueFormatter: function (value) {
+            return value
+            }
+        },
+        data: [2.0, 2.2, 3.3, 4.5, 6.3, 10.2, 20.3, 23.4, 23.0, 16.5, 12.0, 6.2]
+        }
+    ]
+}
 
 export default RoomDashboard

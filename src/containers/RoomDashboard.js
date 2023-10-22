@@ -3,17 +3,43 @@ import ReactEcharts from "echarts-for-react"
 import { PiStudentFill, PiNotebookDuotone } from "react-icons/pi"
 import { BsFillBookmarkStarFill } from "react-icons/bs"
 
-import { useDispatch, useSelector } from "react-redux"
 import Layout from "../components/Layout"
 import Navbar from "../components/Navbar"
 import Sidebar from "../components/Sidebar"
+import { Loading } from "../components/Loader"
 import CardHeader from '../components/HeaderCard'
 import QuizCalendar from '../components/Calendar'
 import Quote from '../components/Quote'
+import { useGetRoomDetailsQuery } from '../backend/sevices/rooms/roomService'
+import { NoContent } from '../components/NoContent'
 
 const RoomDashboard = () => {
     const { id } = useParams()
-    const { authInfo } = useSelector((state) => state.auth)
+    // const { authInfo } = useSelector((state) => state.auth)
+    const { data, isFetching } = useGetRoomDetailsQuery(id)
+    
+    const headings = [
+        {
+            title: "Students",
+            detail: data?.data?.students?.length,
+            icon: <PiStudentFill />,
+        },
+        {
+            title: "Quizzes",
+            detail: data?.data?.quizzes?.length,
+            icon: <PiNotebookDuotone />,
+        },
+        {
+            title: "Total Quizzes",
+            detail: 10,
+            icon: <PiStudentFill />,
+        },
+        {
+            title: "Star Student",
+            detail: "Nafisa Nawer",
+            icon: <BsFillBookmarkStarFill />,
+        },
+    ]
 
     return (
         <Layout title="QuizBot | Room" content="Room">
@@ -21,9 +47,11 @@ const RoomDashboard = () => {
                 <Sidebar />
                 <div className="w-full">
                     <Navbar />
+                    {isFetching ? <Loading/> : (
+                        data.data ? 
                     <div className="p-6">
                         <div className="bg-white rounded-md p-3">
-                            <h1 className="text-2xl font-bold mb-3">Welcome to CSE110 Fall'23 Dashboard</h1>
+                            <h1 className="text-2xl font-bold mb-3">Welcome to {data.data?.title}</h1>
                             <p className="mb-0">No pending quiz this week</p>
                             <button className="mt-4 p-2 bg-dark-green text-medium text-white 
                                 rounded-md py-2"
@@ -51,42 +79,20 @@ const RoomDashboard = () => {
                                 <ReactEcharts option={option} />
                             </div>
                             <div className="card flex justify-content-center">
-                                <QuizCalendar/>
+                                <QuizCalendar quizzes = {data.data?.quizzes}/>
                             </div>
                         </section>
 
                         <section className="grid grid-cols-1">
                             <Quote/>
                         </section>
-                    </div>
+                    </div> : <NoContent/>
+                    )}
                 </div>
             </section>
         </Layout>
     )
 }
-
-const headings = [
-    {
-        title: 'Students',
-        detail: 10,
-        icon:<PiStudentFill/>
-    },
-    {
-        title: 'Quizzes',
-        detail: 2,
-        icon:<PiNotebookDuotone/>
-    },
-    {
-        title: 'Total Quizzes',
-        detail: 10,
-        icon:<PiStudentFill/>
-    },
-    {
-        title: 'Star Student',
-        detail: "Nafisa Nawer",
-        icon:<BsFillBookmarkStarFill/>
-    }
-]
 
 const option = {
     tooltip: {

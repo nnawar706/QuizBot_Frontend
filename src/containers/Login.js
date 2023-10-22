@@ -44,7 +44,7 @@ const Login = () => {
         navigate("/")
       }, 500)
     }
-  }, [navigate, success, error]);
+  }, [navigate, success, error])
 
   const handleSubmit = async (e) => {
     e.preventDefault()

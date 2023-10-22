@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react"
 import { useParams } from 'react-router-dom'
 import ReactEcharts from "echarts-for-react"
 import { PiStudentFill, PiNotebookDuotone } from "react-icons/pi"
@@ -15,31 +16,37 @@ import { NoContent } from '../components/NoContent'
 
 const RoomDashboard = () => {
     const { id } = useParams()
-    // const { authInfo } = useSelector((state) => state.auth)
+    const [headings, setHeadings] = useState([])
     const { data, isFetching } = useGetRoomDetailsQuery(id)
-    
-    const headings = [
-        {
-            title: "Students",
-            detail: data?.data?.students?.length,
-            icon: <PiStudentFill />,
-        },
-        {
-            title: "Quizzes",
-            detail: data?.data?.quizzes?.length,
-            icon: <PiNotebookDuotone />,
-        },
-        {
-            title: "Total Quizzes",
-            detail: 10,
-            icon: <PiStudentFill />,
-        },
-        {
-            title: "Star Student",
-            detail: "Nafisa Nawer",
-            icon: <BsFillBookmarkStarFill />,
-        },
-    ]
+
+    useEffect(() => {
+        if (data && data.data) {
+            const heading_items = [
+                {
+                    title: "Students",
+                    detail: data?.data?.students?.length,
+                    icon: <PiStudentFill />,
+                },
+                {
+                    title: "Quizzes",
+                    detail: data?.data?.quizzes?.length,
+                    icon: <PiNotebookDuotone />,
+                },
+                {
+                    title: "Total Quizzes",
+                    detail: 10,
+                    icon: <PiStudentFill />,
+                },
+                {
+                    title: "Star Student",
+                    detail: "Nafisa Nawer",
+                    icon: <BsFillBookmarkStarFill />,
+                },
+            ]
+
+            setHeadings(heading_items)
+        }
+    }, [data])
 
     return (
         <Layout title="QuizBot | Room" content="Room">
@@ -47,12 +54,12 @@ const RoomDashboard = () => {
                 <Sidebar />
                 <div className="w-full">
                     <Navbar />
-                    {isFetching ? <Loading/> : (
+                    {isFetching || headings.length === 0 ? <Loading/> : (
                         data.data ? 
                     <div className="p-6">
                         <div className="bg-white rounded-md p-3">
-                            <h1 className="text-2xl font-bold mb-3">Welcome to {data.data?.title}</h1>
-                            <p className="mb-0">No pending quiz this week</p>
+                            <h1 className="text-2xl font-bold mb-3 text-gray-600">Welcome to {data.data?.title}</h1>
+                            <p className="mb-0 text-gray-600">No pending quiz this week</p>
                             <button className="mt-4 p-2 bg-dark-green text-medium text-white 
                                 rounded-md py-2"
                                     type="submit"
@@ -61,7 +68,7 @@ const RoomDashboard = () => {
                                 </button>
                         </div>
                         
-                        <section class="grid grid-cols-2 gap-8 p-4 lg:grid-cols-2 xl:grid-cols-4">
+                        <section className="grid grid-cols-2 gap-8 p-4 lg:grid-cols-2 xl:grid-cols-4">
                             {
                                 headings.map((item, index) => {
                                     return (<CardHeader 

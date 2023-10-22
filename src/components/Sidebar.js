@@ -66,7 +66,7 @@ const Sidebar = () => {
                 QUIZBOT.
             </h3>
         </div>
-        <div className="inline-flex mt-4">
+        <div className="inline-flex mt-4 text-gray-600">
             <img src={profile} alt="profile" className={`w-10 h-10 float-left`} />
             <div className={`ml-2 origin-left ${minimizeSidebar && "scale-0"} duration-500`}>
                 <p>Hello, {authInfo.name}</p>

@@ -59,7 +59,7 @@ const RoomDashboard = () => {
                     <div className="p-6">
                         <div className="bg-white rounded-md p-3">
                             <h1 className="text-2xl font-bold mb-3 text-gray-600">Welcome to {data.data?.title}</h1>
-                            <p className="mb-0 text-gray-600">No pending quiz this week</p>
+                            <p className="mb-0 text-gray-600">Woohhoo! No pending quiz this week</p>
                             <button className="mt-4 p-2 bg-dark-green text-medium text-white 
                                 rounded-md py-2"
                                     type="submit"

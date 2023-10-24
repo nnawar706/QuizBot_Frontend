@@ -15,8 +15,8 @@ export const quizApi = createApi({
     }),
     endpoints: (builder) => ({
         getQuizzes: builder.query({
-            query: (room_id) => ({
-                url: "api/v1/quizzes/all/"+room_id,
+            query: (id) => ({
+                url: "api/v1/quizzes/all/"+id,
                 method: "GET",
             }),
             providesTags: ['Quizzes']

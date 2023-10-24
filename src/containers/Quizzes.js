@@ -1,4 +1,5 @@
-import { useState, useRef } from 'react'
+import { useState, useEffect, useRef } from 'react'
+import { useParams } from "react-router-dom"
 import { DataTable } from 'primereact/datatable'
 import { Column } from 'primereact/column'
 import { TieredMenu } from 'primereact/tieredmenu'
@@ -10,11 +11,23 @@ import Layout from "../components/Layout"
 import Navbar from "../components/Navbar"
 import Sidebar from "../components/Sidebar"
 import { Loading } from "../components/Loader"
+import { NoContent } from '../components/NoContent'
+import { useGetQuizzesQuery } from '../backend/sevices/quizzes/quizService'
 
 const Quizzes = () => {
-    const [quizzes, setQuizzes] = useState([{'title':'quiz1','occurring_date':'2013-01-01','time':'09:00 - 10:00','total_mark':10}])
+    const { id } = useParams()
+    const { data, isFetching } = useGetQuizzesQuery(id, { refetchOnMountOrArgChange: true, force: true })
+
+    const [quizzes, setQuizzes] = useState([])
     const [selectedRow, setSelectedRow] = useState(null)
     const overlayRef = useRef(null)
+
+    useEffect(() => {
+        if (data.data)
+        {
+            setQuizzes(data.data)
+        }
+    },[data])
 
     const items = [
         {
@@ -34,7 +47,13 @@ const Quizzes = () => {
     const showMenu = (event, rowData) => {
         setSelectedRow(rowData)
         overlayRef.current.toggle(event)
-        console.log(rowData)
+    }
+
+    const renderQuizStatus = (rowData) => {
+        const curDate = new Date().toISOString().slice(0, 10)
+
+        return <Tag severity={rowData.occurring_date < curDate ? "info" : "warning"}
+            value={rowData.occurring_date < curDate ? "Completed" : "Due"}></Tag>
     }
 
     const renderActionsColumn = (rowData) => {
@@ -60,14 +79,17 @@ const Quizzes = () => {
                             
                             <h1 className="text-dark-green font-bold text-[22px] mb-8">Quizzes</h1>
                             
-                            <DataTable value={quizzes} size='small' tableStyle={{ minWidth: '50rem' }}>
-                                <Column field="title" header="Title" sortable style={{ width: '25%' }}></Column>
-                                <Column field="occurring_date" header="Date" sortable style={{ width: '20%' }}></Column>
-                                <Column field="time" header="Time" sortable style={{ width: '20%' }}></Column>
-                                <Column field="total_mark" header="Total Marks" sortable style={{ width: '15%' }}></Column>
-                                <Column field="status" header="Status" sortable style={{ width: '15%' }}></Column>
-                                <Column header="Actions" style={{ width: '10%' }} body={renderActionsColumn} />
-                            </DataTable>
+                            {isFetching ? <Loading/> : (
+                                !data ? <NoContent/> : (
+                                    <DataTable value={quizzes} size='small' tableStyle={{ minWidth: '50rem' }}>
+                                        <Column field="title" header="Title" sortable style={{ width: '25%' }}></Column>
+                                        <Column field="occurring_date" header="Date" sortable style={{ width: '20%' }}></Column>
+                                        <Column field="from_time" header="Time" sortable style={{ width: '20%' }}></Column>
+                                        <Column field="total_marks" header="Total Marks" sortable style={{ width: '15%' }}></Column>
+                                        <Column field="status" header="Status" sortable style={{ width: '15%' }} body={renderQuizStatus}></Column>
+                                        <Column header="Actions" style={{ width: '10%' }} body={renderActionsColumn} />
+                                    </DataTable>
+                                ))}
                         </div>
                     </div>
                 </div>

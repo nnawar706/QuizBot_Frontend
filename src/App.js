@@ -13,6 +13,8 @@ import "./styles/main.scss"
 import { userRefresh } from "./features/auth/refreshAuthAction"
 import Students from "./containers/Students"
 import Quizzes from "./containers/Quizzes"
+import QuizDetail from "./containers/QuizDetail"
+import Questions from "./containers/CreateQuestions"
 
 const App = () => {
   const { authInfo } = useSelector((state) => state.auth)
@@ -33,20 +35,22 @@ const App = () => {
   return (
     <Router>
       <Routes>
-          {/* public routes */}
-          <Route path="login" element={<Login />} />
-          <Route path="register" element={<Register />} />
+        {/* public routes */}
+        <Route path="login" element={<Login />} />
+        <Route path="register" element={<Register />} />
 
-          {/* protected routes */}
-          <Route element={<RequireAuth />}>
-            <Route path="" element={<Dashboard />} />
-            <Route path="room/:id" element={<RoomDashboard />} />
-            <Route path="room/:id/students" element={<Students />} />
-            <Route path="room/:id/quizzes" element={<Quizzes />} />
-          </Route>
+        {/* protected routes */}
+        <Route element={<RequireAuth />}>
+          <Route path="" element={<Dashboard />} />
+          <Route path="room/:id" element={<RoomDashboard />} />
+          <Route path="room/:id/students" element={<Students />} />
+          <Route path="room/:id/quizzes" element={<Quizzes />} />
+          <Route path="room/:id/quizzes/:quiz_id" element={<QuizDetail />} />
+          <Route path="room/:id/quizzes/:quiz_id/create_questions" element={<Questions />} />
+        </Route>
       </Routes>
     </Router>
-  );
-};
+  )
+}
 
 export default App

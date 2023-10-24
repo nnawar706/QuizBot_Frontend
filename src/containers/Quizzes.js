@@ -23,7 +23,7 @@ const Quizzes = () => {
 
     const [quizzes, setQuizzes] = useState([])
     const [items, setItems] = useState([])
-    const [selectedRow, setSelectedRow] = useState(null)
+    const [selectedRow, setSelectedRow] = useState({id: 1})
     const overlayRef = useRef(null)
 
     useEffect(() => {
@@ -32,10 +32,9 @@ const Quizzes = () => {
             setQuizzes(data.data)
 
             const all_items = [
-                {label: "Detail", id: 1},
-                {label: "Update", id: 2},
-                {label: "Create Question", id: 3},
-                {label: "Remove", id: 4}
+                {label: "Detail", url: `quizzes/${selectedRow.id}`, id: 1},
+                {label: "Create Question", url: `quizzes/${selectedRow.id}/create_questions`, id: 2},
+                {label: "Remove", id: 3}
             ]
 
             const filtered_items = all_items.filter((item) => {
@@ -47,7 +46,7 @@ const Quizzes = () => {
                     }
                     if (selectedRow && selectedRow.question_count > 0)
                     {
-                        return item.id !== 3
+                        return item.id !== 2
                     }
                     else {
                         return true
@@ -132,7 +131,7 @@ const Quizzes = () => {
                                         <Column field="from_time" header="Date & Time" sortable style={{ width: '30%' }} body={renderQuizTime}></Column>
                                         <Column field="total_marks" header="Total Marks" sortable style={{ width: '15%' }}></Column>
                                         <Column field="status" header="Status" sortable style={{ width: '15%' }} body={renderQuizStatus}></Column>
-                                        <Column header="Actions" style={{ width: '10%' }}body={renderActionsColumn} />
+                                        <Column header="Actions" style={{ width: '10%' }} body={renderActionsColumn} />
                                     </DataTable>
                                 ))}
                         </div>

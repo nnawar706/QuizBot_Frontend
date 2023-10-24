@@ -2,6 +2,7 @@ import { useState, useRef } from 'react'
 import { DataTable } from 'primereact/datatable'
 import { Column } from 'primereact/column'
 import { TieredMenu } from 'primereact/tieredmenu'
+import { Tag } from "primereact/tag"
 
 import { ImMenu3 } from "react-icons/im"
 
@@ -17,15 +18,15 @@ const Quizzes = () => {
 
     const items = [
         {
-            label: "File",
+            label: "Update",
             icon: "pi pi-fw pi-file"
         },
         {
-            label: "Edit",
+            label: "Create Question",
             icon: "pi pi-fw pi-pencil"
         },
         {
-            label: "Users",
+            label: "Remove",
             icon: "pi pi-fw pi-user",
         }
     ]

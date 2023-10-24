@@ -65,7 +65,7 @@ const RoomDashboard = () => {
                                     type="submit"
                                 >
                                     Upgrade
-                                </button>
+                            </button>
                         </div>
                         
                         <section className="grid grid-cols-2 gap-8 p-4 lg:grid-cols-2 xl:grid-cols-4">

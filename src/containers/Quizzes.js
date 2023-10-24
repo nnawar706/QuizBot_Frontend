@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
+import { useSelector } from 'react-redux'
 import { useParams } from "react-router-dom"
 import { DataTable } from 'primereact/datatable'
 import { Column } from 'primereact/column'
@@ -13,36 +14,55 @@ import Sidebar from "../components/Sidebar"
 import { Loading } from "../components/Loader"
 import { NoContent } from '../components/NoContent'
 import { useGetQuizzesQuery } from '../backend/sevices/quizzes/quizService'
+import Quiz from '../components/Quiz'
 
 const Quizzes = () => {
+    const { authInfo } = useSelector((state) => state.auth)
     const { id } = useParams()
     const { data, isFetching } = useGetQuizzesQuery(id, { refetchOnMountOrArgChange: true, force: true })
 
     const [quizzes, setQuizzes] = useState([])
+    const [items, setItems] = useState([])
     const [selectedRow, setSelectedRow] = useState(null)
     const overlayRef = useRef(null)
 
     useEffect(() => {
-        if (data.data)
+        if (data && data.data)
         {
             setQuizzes(data.data)
-        }
-    },[data])
 
-    const items = [
-        {
-            label: "Update",
-            icon: "pi pi-fw pi-file"
-        },
-        {
-            label: "Create Question",
-            icon: "pi pi-fw pi-pencil"
-        },
-        {
-            label: "Remove",
-            icon: "pi pi-fw pi-user",
+            const all_items = [
+                {label: "Detail", id: 1},
+                {label: "Update", id: 2},
+                {label: "Create Question", id: 3},
+                {label: "Remove", id: 4}
+            ]
+
+            const filtered_items = all_items.filter((item) => {
+                if (authInfo.role === 2)
+                {
+                    if (selectedRow && new Date(selectedRow.occurring_date) < new Date())
+                    {
+                        return item.id === 1
+                    }
+                    if (selectedRow && selectedRow.question_count > 0)
+                    {
+                        return item.id !== 3
+                    }
+                    else {
+                        return true
+                    }
+                } else if (authInfo.role === 3) {
+                    return item.id === 1
+                }
+                else {
+                    return true
+                }
+            })
+
+            setItems(filtered_items)
         }
-    ]
+    },[data, selectedRow, authInfo])
 
     function formatDate(dateString) {
         const date = new Date(dateString)
@@ -102,6 +122,8 @@ const Quizzes = () => {
                         <div className="bg-white rounded-md p-3 min-h-[380px]">
                             
                             <h1 className="text-dark-green font-bold text-[22px] mb-8">Quizzes</h1>
+                            
+                            {authInfo.role === 2 ? <Quiz room_id={id}/> : ''}
                             
                             {isFetching ? <Loading/> : (
                                 !data ? <NoContent/> : (

@@ -51,7 +51,7 @@ const Navbar = () => {
                 })
             })
             .catch((err) => {
-                setVisible(false)
+                // setVisible(false)
                 toast.current.show({
                     severity: "error",
                     summary: "Error",

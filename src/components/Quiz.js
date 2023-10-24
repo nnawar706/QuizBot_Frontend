@@ -1,22 +1,48 @@
-import { useState } from "react"
+import { useState, useRef } from "react"
 import { Dialog } from "primereact/dialog"
-import { Calendar } from "primereact/calendar"
+import { Toast } from "primereact/toast"
 
 import { useAddNewQuizMutation } from "../backend/sevices/quizzes/quizService"
 
 const Quiz = (props) => {
+    const toast = useRef(null)
     const [visible, setVisible] = useState(false)
     const [storeQuiz, { isLoading: addNewQuizLoading } ] = useAddNewQuizMutation()
     const [title, setTitle] = useState('')
     const [occurring_date, setOccurringDate] = useState('2020-01-01')
     const [from_time, setFromTime] = useState('00:00')
     const [to_time, setToTime] = useState("00:00")
-    const [total_marks, setTotalMarks] = useState(0)
+    const [total_marks, setTotalMarks] = useState('')
 
     const handleQuizSubmit = async(e) => {
         e.preventDefault()
 
-        storeQuiz(props.room_id, {title, occurring_date, from_time, to_time, total_marks})
+        const room_id = props.room_id
+        
+        storeQuiz({room_id, title, occurring_date, from_time, to_time, total_marks})
+            .unwrap()
+            .then(() => {
+                setTitle('')
+                setFromTime('')
+                setOccurringDate('')
+                setToTime('')
+                setTotalMarks('')
+                setVisible(false)
+                toast.current.show({
+                    severity: "success",
+                    summary: "Success",
+                    detail: "New quiz has been added.",
+                    life: 3000,
+                })
+            })
+            .catch((err) => {
+                toast.current.show({
+                    severity: "error",
+                    summary: "Error",
+                    detail: err?.data?.error,
+                    life: 3000,
+                })
+            })
     }
 
     return (
@@ -28,6 +54,8 @@ const Quiz = (props) => {
         >
             New Quiz
         </button>
+
+        <Toast ref={toast} />
 
         <div className="card flex justify-content-center">
         <Dialog header="Create New Quiz" visible={visible} style={{ width: '50vw',height: '33vh' }} onHide={() => setVisible(false)}>

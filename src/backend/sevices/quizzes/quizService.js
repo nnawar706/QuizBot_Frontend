@@ -30,7 +30,7 @@ export const quizApi = createApi({
         // }),
 
         addNewQuiz: builder.mutation({
-            query: (room_id, { title, occurring_date, from_time, to_time, total_marks }) => ({
+            query: ({room_id, title, occurring_date, from_time, to_time, total_marks }) => ({
                 url: "api/v1/quizzes/"+room_id,
                 method: "POST",
                 body: { title, occurring_date, from_time, to_time, total_marks }

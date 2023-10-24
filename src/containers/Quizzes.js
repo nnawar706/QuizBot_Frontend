@@ -44,9 +44,33 @@ const Quizzes = () => {
         }
     ]
 
+    function formatDate(dateString) {
+        const date = new Date(dateString)
+
+        const options = {
+            'year': 'numeric',
+            'month': 'short',
+            'day': 'numeric'
+        }
+
+        return date.toLocaleDateString(undefined, options)
+    }
+
+    function formatTime(timeString) {
+        const time = new Date(`2000-01-01T${timeString}`)
+        const formattedTime = time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+        return formattedTime
+    }
+
     const showMenu = (event, rowData) => {
         setSelectedRow(rowData)
         overlayRef.current.toggle(event)
+    }
+
+    const renderQuizTime = (rowData) => {
+        return <p>
+                {formatDate(rowData.occurring_date)}, {formatTime(rowData.from_time)} - {formatTime(rowData.to_time)} (UTC)
+            </p>
     }
 
     const renderQuizStatus = (rowData) => {
@@ -82,12 +106,11 @@ const Quizzes = () => {
                             {isFetching ? <Loading/> : (
                                 !data ? <NoContent/> : (
                                     <DataTable value={quizzes} size='small' tableStyle={{ minWidth: '50rem' }}>
-                                        <Column field="title" header="Title" sortable style={{ width: '25%' }}></Column>
-                                        <Column field="occurring_date" header="Date" sortable style={{ width: '20%' }}></Column>
-                                        <Column field="from_time" header="Time" sortable style={{ width: '20%' }}></Column>
+                                        <Column field="title" header="Title" sortable style={{ width: '20%' }}></Column>
+                                        <Column field="from_time" header="Date & Time" sortable style={{ width: '30%' }} body={renderQuizTime}></Column>
                                         <Column field="total_marks" header="Total Marks" sortable style={{ width: '15%' }}></Column>
                                         <Column field="status" header="Status" sortable style={{ width: '15%' }} body={renderQuizStatus}></Column>
-                                        <Column header="Actions" style={{ width: '10%' }} body={renderActionsColumn} />
+                                        <Column header="Actions" style={{ width: '10%' }}body={renderActionsColumn} />
                                     </DataTable>
                                 ))}
                         </div>
